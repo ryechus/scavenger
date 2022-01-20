@@ -1,0 +1,29 @@
+.vMiddle {
+  vertical-align: middle;
+}
+.caps {
+  text-transform: uppercase;
+}
+body {
+  margin: 0;
+}
+body a {
+  font: 12px/1.4 "Lucida Grande", Arial, sans-serif;
+  background: #000;
+  color: #ccc;
+}
+form input {
+  padding: 5px;
+  border: 1px solid;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+.topBar {
+  background: #000;
+  height: 50px;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
