@@ -1,0 +1,23 @@
+{% load static wagtailcore_tags wagtailimages_tags tz humanize %}
+<div class="post">
+    <div class="postMedia">
+        {% for p_img in post.post_images.all %}
+        {% image p_img.image width-600 as p_img %}
+        <img src="{{ p_img.url }}" alt="" style="width: 100vw">
+        <!--        <img src="" alt="">-->
+        {% endfor %}
+    </div>
+    <div class="postBody">
+        <h2 class="postTitle">
+            {{ post.title }}
+        </h2>
+        <div class="postContent">
+            {{ post.specific.body|richtext|truncatechars_html:140 }}
+        </div>
+        <div class="postDate">
+            {% localtime on %}
+            {{ post.first_published_at|naturalday }}
+            {% endlocaltime %}
+        </div>
+    </div>
+</div>

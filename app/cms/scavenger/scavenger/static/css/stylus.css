@@ -1,14 +1,52 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100;400&display=swap");
 .vMiddle {
   vertical-align: middle;
+}
+.post {
+  margin-bottom: 15px;
+  border-bottom: 1px #efefef solid;
+  padding-bottom: 5px;
+}
+h2.postTitle {
+  margin: 0;
+}
+.postBody {
+  padding: 0 15px 5px;
+}
+.postContent {
+  margin: 5px 0;
+}
+.postBody p {
+  margin: 0;
+}
+.postDate {
+  font-size: 9pt;
+  font-style: italic;
+}
+.postMedia {
+  height: 500px;
+  overflow: hidden;
+  display: flex;
+}
+.postMediaContent {
+  width: 100vw;
+  height: auto;
 }
 .caps {
   text-transform: uppercase;
 }
+a.noStyle {
+  text-decoration: none;
+  font-size: initial;
+  font-weight: initial;
+  text-transform: initial;
+}
 body {
   margin: 0;
+  font-family: "Outfit", Arial, sans-serif;
 }
 body a {
-  font: 12px/1.4 "Lucida Grande", Arial, sans-serif;
+  font: 12px/1.4 "Outfit", Arial, sans-serif;
   background: #000;
   color: #ccc;
 }
@@ -26,4 +64,7 @@ form input {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.topBar .title {
+  font-weight: bold;
 }

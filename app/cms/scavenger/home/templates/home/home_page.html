@@ -1,6 +1,4 @@
 {% extends "base.html" %}
-{% load static wagtailcore_tags wagtailimages_tags %}
-
 {% block body_class %}template-homepage{% endblock %}
 
 {% block content %}
@@ -9,10 +7,8 @@
 Delete the line below if you're just getting started and want to remove the welcome screen!
 {% endcomment %}
 
-{% for post in page.get_children %}
-    {{ post.title }}
-    {{ post.specific.body|richtext }}
-    {% image post.specific.post_image width-400 %}
+{% for post in posts %}
+{% include "posts/post_markup.html" %}
 {% endfor %}
 
 {% endblock content %}
