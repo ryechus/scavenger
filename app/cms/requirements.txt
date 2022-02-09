@@ -14,21 +14,19 @@ certifi==2021.10.8
     # via requests
 charset-normalizer==2.0.9
     # via requests
-django==3.2.10
+django==4.0
     # via
+    #   -r requirements.in
     #   django-filter
-    #   django-jinja
     #   django-taggit
     #   django-treebeard
     #   djangorestframework
     #   wagtail
 django-filter==21.1
     # via wagtail
-django-jinja==2.10.0
-    # via -r requirements.in
 django-modelcluster==5.2
     # via wagtail
-django-taggit==1.5.1
+django-taggit==2.1.0
     # via wagtail
 django-treebeard==4.5.1
     # via wagtail
@@ -43,9 +41,7 @@ html5lib==1.1
 idna==3.3
     # via requests
 jinja2==3.0.3
-    # via
-    #   -r requirements.in
-    #   django-jinja
+    # via -r requirements.in
 l18n==2021.3
     # via wagtail
 markupsafe==2.0.1
@@ -56,7 +52,6 @@ pillow==8.4.0
     # via wagtail
 pytz==2021.3
     # via
-    #   django
     #   django-modelcluster
     #   djangorestframework
     #   l18n
@@ -76,7 +71,7 @@ telepath==0.2
     # via wagtail
 urllib3==1.26.7
     # via requests
-wagtail==2.15.1
+wagtail==2.16
     # via -r requirements.in
 webencodings==0.5.1
     # via html5lib
