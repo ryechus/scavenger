@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('posts', '0001_initial'),
+        ("posts", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='postimages',
-            name='base64_bin',
+            model_name="postimages",
+            name="base64_bin",
             field=models.BinaryField(null=True),
         ),
     ]
