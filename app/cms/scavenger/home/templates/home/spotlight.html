@@ -1,0 +1,9 @@
+{% load wagtailimages_tags %}
+<div class="spotlight">
+  {% image page.spotlight_post.post_images.first.image original format-png as p_img %}
+  <div class="img" style="background-image: url('{{ p_img.url }}')"></div>
+
+  <div class="spotlight-title">
+    <h1>{{ page.spotlight_post.title }}</h1>
+  </div>
+</div>

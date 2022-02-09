@@ -32,6 +32,26 @@ h2.postTitle {
   width: 100vw;
   height: auto;
 }
+hr.post-start {
+  margin-bottom: 25px;
+}
+.spotlight {
+  height: 450px;
+  display: flex;
+  position: relative;
+  margin-bottom: 25px;
+}
+.spotlight-title {
+  background: #000;
+  color: #fff;
+  position: absolute;
+  bottom: 15px;
+  padding: 0 25px;
+}
+.spotlight .img {
+  width: 100vw;
+  height: 100%;
+}
 .caps {
   text-transform: uppercase;
 }
