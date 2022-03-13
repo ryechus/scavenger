@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     "wagtail.search",
     "wagtail.admin",
     "wagtail.core",
+    "wagtail.contrib.modeladmin",
     "modelcluster",
     "taggit",
     "django.contrib.admin",
@@ -132,7 +133,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "America/Los_Angeles"
 
 USE_I18N = True
 

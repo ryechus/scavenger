@@ -24,8 +24,3 @@ LOGGING = {
         "level": "WARNING",
     },
 }
-
-try:
-    from .local import *  # noqa
-except ImportError:
-    pass

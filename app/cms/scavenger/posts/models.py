@@ -2,20 +2,24 @@ import base64
 import logging
 
 from django.db import models
-from modelcluster.fields import ParentalKey
+from modelcluster.contrib.taggit import ClusterTaggableManager
+from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel
 from wagtail.core.fields import RichTextField
 from wagtail.core.models import Orderable, Page
 from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
 logger = logging.getLogger("")
 
 
 class Post(Page):
     body = RichTextField(blank=True)
+    artists = ClusterTaggableManager(through="artists.Artist", blank=True, verbose_name="artist")
 
     content_panels = Page.content_panels + [
         InlinePanel("post_images", label="Post images"),
+        FieldPanel("artists", heading="artists"),
         FieldPanel("body"),
     ]
     context_object_name = "post"
@@ -32,17 +36,13 @@ class PostImages(Orderable):
     """Image model that allows ordering images on posts"""
 
     post = ParentalKey(Post, on_delete=models.CASCADE, related_name="post_images")
-    image = models.ForeignKey(
-        "wagtailimages.Image", on_delete=models.CASCADE, related_name="+"
-    )
+    image = models.ForeignKey("wagtailimages.Image", on_delete=models.CASCADE, related_name="+")
     # can be used to display images using base64
     base64_bin = models.BinaryField(null=True)
     # location_data
     panels = [ImageChooserPanel("image")]
 
-    def save(
-        self, force_insert=False, force_update=False, using=None, update_fields=None
-    ):
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         # import pdb
         #
         # pdb.set_trace()

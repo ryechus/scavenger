@@ -2,16 +2,14 @@
 {% block body_class %}template-homepage{% endblock %}
 
 {% block content %}
-{% include 'home/spotlight.html' %}
-
-<hr class="post-start">
-
-{% comment %}
+    {#{% include 'home/spotlight.html' %}#}
+    {% comment %}
 Delete the line below if you're just getting started and want to remove the welcome screen!
 {% endcomment %}
-
-{% for post in posts %}
-{% include "posts/post_markup.html" %}
-{% endfor %}
+    <div class="container">
+        {% for post in posts %}
+            {% include "posts/post_markup.html" %}
+        {% endfor %}
+    </div>
 
 {% endblock content %}

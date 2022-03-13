@@ -1,10 +1,9 @@
 .post
-  margin-bottom 15px
-  border-bottom 1px #EFEFEF solid
-  padding-bottom 5px
+  padding 0 20px 20px
 
-h2.postTitle
-  margin 0
+.postTitle
+  margin-bottom  0
+  font-size 1.5em
 
 .postBody
   padding 0 15px 5px
@@ -12,17 +11,28 @@ h2.postTitle
 .postContent
   margin 5px 0
 
-.postBody p
+.postBody
   margin 0
 
 .postDate
-  font-size 9pt
-  font-style italic
+  margin-top 0
 
 .postMedia
   height 500px
   overflow hidden
   display flex
+
+img.postImage
+  width 100%
+  display block
+  margin 0 auto
+
+  @media screen and (min-width: 768px)
+    max-width 500px
+
+.postDivider
+  color #a9a
+  opacity 0.1
 
 .postMediaContent
   width: 100vw

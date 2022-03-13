@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;400&display=swap');
 @import 'imports/*'
+@import 'bootstrap/*.css'
 
 border-radius()
   -webkit-border-radius: arguments
@@ -9,11 +10,11 @@ border-radius()
 body
   margin 0
   font-family "Outfit", Arial, sans-serif
+  font-size 16px
 
-body a
-  font: 12px/1.4 "Outfit", Arial, sans-serif
-  background: black
-  color: #ccc
+a:visited
+  color black
+  //background: black
 
 form input
   padding: 5px
@@ -21,12 +22,15 @@ form input
   border-radius: 5px
 
 .topBar
-  background: black
+  //background: black
   height: 50px
-  color white
+  //color white
   display flex
   justify-content center
   align-items center
+  margin 50px 0
 
 .topBar .title
   font-weight bold
+  font-size 2em
+  //font-size 36px
