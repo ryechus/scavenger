@@ -1,5 +1,11 @@
 {% extends "base.html" %}
+{% load wagtailcore_tags %}
 
 {% block content %}
     {% include "posts/post_markup.html" %}
-{% endblock content%}
+    <div class="row">
+        <div class="post col-xs-12 col-md-6 offset-md-3">
+            {{ post.body|richtext }}
+        </div>
+    </div>
+{% endblock content %}

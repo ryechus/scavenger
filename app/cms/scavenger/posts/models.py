@@ -16,11 +16,13 @@ logger = logging.getLogger("")
 class Post(Page):
     body = RichTextField(blank=True)
     artists = ClusterTaggableManager(through="artists.Artist", blank=True, verbose_name="artist")
+    tags = ClusterTaggableManager(through="artists.PostTag", blank=True)
 
     content_panels = Page.content_panels + [
         InlinePanel("post_images", label="Post images"),
         FieldPanel("artists", heading="artists"),
         FieldPanel("body"),
+        FieldPanel("tags"),
     ]
     context_object_name = "post"
 

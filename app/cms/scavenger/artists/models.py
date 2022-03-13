@@ -1,7 +1,11 @@
 from django.db import models
 from modelcluster.fields import ParentalKey
-from taggit.models import ItemBase, TagBase
+from taggit.models import ItemBase, TagBase, TaggedItemBase
 from wagtail.snippets.models import register_snippet
+
+
+class PostTag(TaggedItemBase):
+    content_object = ParentalKey("posts.Post", on_delete=models.CASCADE)
 
 
 class ArtistTag(TagBase):

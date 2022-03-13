@@ -1,35 +1,27 @@
 {% load static wagtailcore_tags wagtailimages_tags tz humanize %}
-{#<div class="post">#}
-{#    <div class="postMedia">#}
-{#        {% for p_img in post.post_images.all %}#}
-{#        {% image p_img.image original as p_img %}#}
-{#        <img src="{{ p_img.url }}" alt="">#}
-{#        <!--        <img src="" alt="">-->#}
-{#        {% endfor %}#}
-{#    </div>#}
-{#    <div class="postBody">#}
-{#        <h2 class="postTitle">#}
-{#            {{ post.title }}#}
-{#        </h2>#}
-{#        <div class="postContent">#}
-{#            {{ post.specific.body|richtext|truncatechars_html:140 }}#}
-{#        </div>#}
-{#        <div class="postDate">#}
-{#            {% localtime on %}#}
-{#            {{ post.first_published_at|naturalday }}#}
-{#            {% endlocaltime %}#}
-{#        </div>#}
-{#    </div>#}
-{#</div>#}
 <div class="row no-gutters">
     <div class="post col-xs-12 col-md-6 offset-md-3">
         {% for p_img in post.post_images.all|slice:":1" %}
-            {% image p_img.image original fill-500x500 as p_img %}
-            <img class="postImage" src="{{ p_img.url }}" alt="">
+            {% image p_img.image original fill-640x640 as p_img %}
+            <a href="{% pageurl post %}">
+                <img class="postImage" src="{{ p_img.url }}" alt="">
+            </a>
+
             <br>
             <!--        <img src="" alt="">-->
         {% endfor %}
-        <p class="postTitle">{{ post.title }}</p>
+        <a href="{% pageurl post %}">
+{#            <p class="postTitle">{{ post.title }}</p>#}
+                <p class="postTitle">
+                    {% for artist in post.artists.all|slice:":1" %}
+                          {{ artist.name }}
+                    {% endfor %}
+                    {% for artist in post.artists.all|slice:"1:" %}
+                          x {{ artist.name }}
+                    {% endfor %}
+                </p>
+
+        </a>
         <p class="postDate">{{ post.first_published_at|localtime|naturalday }}</p>
         <hr class="postDivider">
     </div>
