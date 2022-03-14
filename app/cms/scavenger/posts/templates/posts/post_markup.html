@@ -11,17 +11,23 @@
             <!--        <img src="" alt="">-->
         {% endfor %}
         <a href="{% pageurl post %}">
-{#            <p class="postTitle">{{ post.title }}</p>#}
-                <p class="postTitle">
-                    {% for artist in post.artists.all|slice:":1" %}
-                          {{ artist.name }}
-                    {% endfor %}
-                    {% for artist in post.artists.all|slice:"1:" %}
-                          x {{ artist.name }}
-                    {% endfor %}
-                </p>
+            {#            <p class="postTitle">{{ post.title }}</p>#}
+            <p class="postTitle">
+                {% for artist in post.artists.all|slice:":1" %}
+                    {{ artist.name }}
+                {% endfor %}
+                {% for artist in post.artists.all|slice:"1:" %}
+                    x {{ artist.name }}
+                {% endfor %}
+            </p>
 
         </a>
+
+        <p class="postTags">
+            {% for tag in post.tags.all %}
+                <a href="{% url 'posts:tags' tag.name %}">#{{ tag }}</a>
+            {% endfor %}
+        </p>
         <p class="postDate">{{ post.first_published_at|localtime|naturalday }}</p>
         <hr class="postDivider">
     </div>

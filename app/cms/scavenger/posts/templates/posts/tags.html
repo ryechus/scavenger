@@ -1,0 +1,13 @@
+{% extends "home/home_page.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-md-6 offset-md-3">
+                <h2 style="text-align: center">#{{ tag }}</h2>
+                <hr class="postDivider">
+            </div>
+        </div>
+    </div>
+    {{ block.super }}
+{% endblock %}
