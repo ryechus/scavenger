@@ -1,0 +1,10 @@
+version: "3.8"
+services:
+  django:
+    build:
+      context: app/cms
+    command: ./manage.py runserver 0.0.0.0:8000
+#    volumes:
+#      - ./app/cms/scavenger:/app/scavenger
+    ports:
+      - 8000:8000
