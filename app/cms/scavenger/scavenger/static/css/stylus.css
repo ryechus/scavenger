@@ -14,6 +14,7 @@
 }
 .postTitle {
   margin-bottom: 0;
+  text-transform: lowercase;
 }
 .postBody {
   padding: 0 15px 5px;
@@ -59,6 +60,10 @@ img.postImage {
 hr.post-start {
   margin-bottom: 25px;
 }
+.richtext-image {
+  display: block;
+  margin: 0 auto;
+}
 .spotlight {
   height: 450px;
   display: flex;
@@ -88,8 +93,9 @@ a.noStyle {
 @import 'bootstrap/*.css';
 body {
   margin: 0;
-  font-family: "Outfit", Arial, sans-serif;
+  font-family: 'Archivo', sans-serif;
   font-size: 16px;
+  font-weight: 300;
 }
 a:visited,
 a:hover,
