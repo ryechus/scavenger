@@ -14,7 +14,6 @@
 }
 .postTitle {
   margin-bottom: 0;
-  font-size: 1.5em;
 }
 .postBody {
   padding: 0 15px 5px;
@@ -27,6 +26,7 @@
 }
 .postDate {
   margin-top: 0;
+  font-size: 0.8em;
 }
 .postMedia {
   height: 500px;
@@ -108,9 +108,9 @@ form input {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 50px 0;
+  margin: 17px 0;
 }
 .topBar .title {
   font-weight: bold;
-  font-size: 2em;
+  font-size: 1.5em;
 }

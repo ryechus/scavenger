@@ -8,7 +8,10 @@ from wagtail.documents import urls as wagtaildocs_urls
 from posts import urls as post_urls
 from search import views as search_views
 
+from . import views
+
 urlpatterns = [
+    path("health/", views.health_check),
     path("django-admin/", admin.site.urls),
     path("admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
