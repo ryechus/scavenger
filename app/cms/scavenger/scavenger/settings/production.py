@@ -15,7 +15,7 @@ sentry_sdk.init(
     send_default_pii=True,
 )
 
-ALLOWED_HOSTS = ["scavenger.news"]
+ALLOWED_HOSTS = ["*"]
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 
 DEBUG = False
