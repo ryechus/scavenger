@@ -11,6 +11,14 @@ terraform {
 provider "aws" {
   profile = "zilla"
   region  = "us-west-1"
+
+  default_tags {
+    tags = {
+      Environment = "dev"
+      Owner       = "mike"
+      Project     = "scavenger"
+    }
+  }
 }
 
 data "aws_vpc" "main" {
@@ -43,14 +51,14 @@ resource "aws_ecs_cluster" "scavenger" {
 
 # ecs service
 #resource "aws_ecs_service" "scavenger" {
-#  name            = "scavenger-bblog"
-#  cluster         = aws_ecs_cluster.scavenger.id
-#  task_definition = aws_ecs_task_definition.scavenger.arn
-#  desired_count   = 1
+#  name                       = "scavenger-bblog"
+#  cluster                    = aws_ecs_cluster.scavenger.id
+#  task_definition            = aws_ecs_task_definition.scavenger.arn
+#  desired_count              = 1
 #  deployment_maximum_percent = 200
-#  launch_type     = "FARGATE"
+#  launch_type                = "FARGATE"
 #  network_configuration {
-#    subnets = ["subnet-28a2344e", "subnet-a8d173f2"]
+#    subnets          = ["subnet-28a2344e", "subnet-a8d173f2"]
 #    assign_public_ip = true
 #  }
 #  load_balancer {
@@ -101,11 +109,11 @@ resource "aws_ecs_task_definition" "scavenger" {
   cpu                      = 256
   memory                   = 512
   execution_role_arn       = data.aws_iam_role.ecs_task_execution_role.arn
-  task_role_arn = aws_iam_role.ecs_execution_role.arn
+  task_role_arn            = aws_iam_role.ecs_execution_role.arn
   container_definitions = jsonencode([
     {
       name      = "scavenger"
-      image     = "188863028714.dkr.ecr.us-west-1.amazonaws.com/scavenger_blog:0f27020cb0df2662bc1bd5f28eb378e7d082f47a"
+      image     = "188863028714.dkr.ecr.us-west-1.amazonaws.com/scavenger_blog:${var.source_code_version}"
       command   = ["./manage.py", "runserver", "0.0.0.0:8000"]
       cpu       = 256
       memory    = 512
@@ -114,6 +122,32 @@ resource "aws_ecs_task_definition" "scavenger" {
         {
           containerPort = 8000
           hostPort      = 8000
+        }
+      ]
+      environment = [
+        {
+          name  = "DB_NAME",
+          value = "scavenger"
+        },
+        {
+          name  = "DB_USER",
+          value = "scavenger",
+        },
+        {
+          name  = "DB_PASS",
+          value = "scavenger"
+        },
+        {
+          name  = "DB_HOST",
+          value = "terraform-20220319082057909300000001.cqautf7pxlyd.us-west-1.rds.amazonaws.com"
+        },
+        {
+          name  = "DJANGO_SECRET_KEY",
+          value = random_password.django_secret_key.result
+        },
+        {
+          name  = "DJANGO_SETTINGS_MODULE"
+          value = "scavenger.settings.production"
         }
       ]
     }
@@ -152,11 +186,19 @@ resource "aws_security_group" "allow_tls" {
   vpc_id      = data.aws_vpc.main.id
 
   ingress {
-    description      = "TLS from VPC"
-    from_port        = 443
-    to_port          = 443
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
+    description = "TLS from VPC"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "HTTP"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -179,55 +221,6 @@ resource "aws_s3_bucket" "logs" {
   tags = {
     Environment = "development"
   }
-}
-
-# ssl cert
-resource "aws_acm_certificate" "cert" {
-  domain_name       = "scavenger.news"
-  validation_method = "DNS"
-
-  tags = {
-    Environment = "development"
-  }
-
-  lifecycle {
-    create_before_destroy = true
-  }
-}
-
-# aws_route53_record
-resource "aws_route53_record" "www" {
-  zone_id = "Z02270332VCSNF4XI5BQW"
-  name    = "scavenger.news"
-  type    = "A"
-
-  alias {
-    name                   = aws_lb.scavenger.dns_name
-    zone_id                = aws_lb.scavenger.zone_id
-    evaluate_target_health = true
-  }
-}
-
-resource "aws_route53_record" "example" {
-  for_each = {
-    for dvo in aws_acm_certificate.cert.domain_validation_options : dvo.domain_name => {
-      name   = dvo.resource_record_name
-      record = dvo.resource_record_value
-      type   = dvo.resource_record_type
-    }
-  }
-
-  allow_overwrite = true
-  name            = each.value.name
-  records         = [each.value.record]
-  ttl             = 60
-  type            = each.value.type
-  zone_id         = "Z02270332VCSNF4XI5BQW"
-}
-
-resource "aws_acm_certificate_validation" "example" {
-  certificate_arn         = aws_acm_certificate.cert.arn
-  validation_record_fqdns = [for record in aws_route53_record.example : record.fqdn]
 }
 
 #resource "aws_network_interface" "test" {

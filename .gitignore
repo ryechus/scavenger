@@ -1,3 +1,5 @@
 .idea
 */.terraform
 tfplan
+.DS_Store
+**/__pycache__

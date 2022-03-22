@@ -93,7 +93,7 @@ a.noStyle {
 @import 'bootstrap/*.css';
 body {
   margin: 0;
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Heebo', sans-serif;
   font-size: 16px;
   font-weight: 300;
 }
@@ -117,6 +117,6 @@ form input {
   margin: 17px 0;
 }
 .topBar .title {
-  font-weight: bold;
-  font-size: 1.5em;
+  font-weight: 800;
+  font-size: 1.75em;
 }

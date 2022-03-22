@@ -3,3 +3,5 @@ wagtail==2.16
 jinja2
 psycopg2
 sentry-sdk
+django-storages
+boto3

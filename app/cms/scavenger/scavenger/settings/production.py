@@ -2,6 +2,7 @@ import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
 from .base import *  # noqa
+from .storage_s3 import *  # noqa
 
 sentry_sdk.init(
     dsn="https://467ebc746f1d4f0ab6c2fdcdc6fb93de@o925654.ingest.sentry.io/6267343",
