@@ -90,7 +90,7 @@ a.noStyle {
   font-weight: initial;
   text-transform: initial;
 }
-@import 'bootstrap/*.css';
+
 body {
   margin: 0;
   font-family: 'Heebo', sans-serif;

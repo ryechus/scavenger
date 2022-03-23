@@ -1,14 +1,17 @@
+# flake8: noqa
 from .dev import *
-# from .storage_s3 import *
+from .storage_s3 import *  # noqa
 
-INSTALLED_APPS += ['wagtail.contrib.styleguide',]
+INSTALLED_APPS += [
+    "wagtail.contrib.styleguide",
+]
 
-# DATABASES = {
-#   'default': {
-#     "ENGINE": "django.db.backends.postgresql",
-#     "NAME": "scavenger",
-#     "USER": "scavenger",
-#     "PASSWORD": "scavenger",
-#     "HOST": "postgres"
-#   }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.environ.get("DB_NAME"),
+        "USER": os.environ.get("DB_USER"),
+        "PASSWORD": os.environ.get("DB_PASS"),
+        "HOST": os.environ.get("DB_HOST"),
+    }
 }

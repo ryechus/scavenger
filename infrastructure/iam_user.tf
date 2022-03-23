@@ -1,4 +1,3 @@
-/*
 resource "aws_iam_user" "django" {
   name = "django"
 }
@@ -31,4 +30,3 @@ resource "aws_iam_user_policy" "django_s3" {
 }
 EOF
 }
-*/

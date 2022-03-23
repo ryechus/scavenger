@@ -9,6 +9,6 @@ RUN pip install --upgrade pip pip-tools
 RUN pip-compile requirements.in requirements-dev.in --output-file requirements.txt
 RUN pip install -r requirements.txt
 
-COPY scavenger /app/scavenger
+COPY . /app/scavenger
 
 WORKDIR /app/scavenger

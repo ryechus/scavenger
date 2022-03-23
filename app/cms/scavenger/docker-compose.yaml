@@ -2,19 +2,19 @@ version: "3.8"
 services:
   django:
     build:
-      context: app/cms/scavenger
+      context: .
       dockerfile: Minimal.Dockerfile
     command: ./manage.py runserver 0.0.0.0:8000
     working_dir: /app/scavenger
+    env_file:
+      - .env.local
+      - .env.db-local
+#      - local-dev.env
     environment:
       - DJANGO_SETTINGS_MODULE=scavenger.settings.local
       - DJANGO_SECRET_KEY='test'
-      - DB_NAME=scavenger
-      - DB_USER=scavenger
-      - DB_PASS=scavenger
-      - DB_HOST=terraform-20220319082057909300000001.cqautf7pxlyd.us-west-1.rds.amazonaws.com
     volumes:
-      - ./app/cms/scavenger:/app/scavenger
+      - ./:/app/scavenger
     ports:
       - 8000:8000
     depends_on:
