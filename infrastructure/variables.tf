@@ -1,3 +1,3 @@
 variable "source_code_version" {
-  default = "ae8b094bea00e1d450884637fcfc06ce723b3d2f"
+  default = "18bf75d9ffe3f008c7cc1840a20b6f8327881565"
 }
