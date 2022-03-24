@@ -1,5 +1,9 @@
 name: Deploy
 on: [push]
+env:
+  TF_VAR_aws_profile: "default"
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 jobs:
   Deploy-To-Fargate:
     runs-on: ubuntu-latest
