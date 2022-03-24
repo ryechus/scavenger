@@ -7,6 +7,6 @@ resource "aws_db_instance" "django_db" {
   db_name             = "scavenger"
   username            = "scavenger"
   password            = random_password.db_password.result
-  skip_final_snapshot = true
+  skip_final_snapshot = false
   publicly_accessible = true
 }

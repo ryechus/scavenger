@@ -1,5 +1,5 @@
 variable "source_code_version" {
-  default = "80cf1ea3bc8d25e19da3f75f5bcb1f41c337582b"
+  default = "e844e5720f6bf8c29cef3cac329098a8aa646498"
 }
 
 variable "aws_profile" {
