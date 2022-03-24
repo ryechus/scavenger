@@ -2,7 +2,7 @@ terraform {
   backend "s3" {
     profile = var.aws_profile
     bucket  = "scavenger-terraform-state"
-    key     = "statefiles/terraform.tfstate"
+    key     = "statefiles/scavenger-tasks_terraform.tfstate"
     region  = "us-west-1"
   }
 }

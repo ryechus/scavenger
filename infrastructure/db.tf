@@ -1,4 +1,5 @@
 resource "aws_db_instance" "django_db" {
+  identifier          = "scavenger-${local.env}"
   allocated_storage   = 5
   engine              = "postgres"
   engine_version      = "14.2"
