@@ -19,5 +19,9 @@ jobs:
         working-directory: ./infrastructure/tasks
 
       - name: Terraform Plan
-        run: terraform plan
+        run: terraform plan -out tfplan
+        working-directory: ./infrastructure/tasks
+
+      - name: Terraform Apply
+        run: terraform apply tfplan
         working-directory: ./infrastructure/tasks
