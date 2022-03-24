@@ -14,6 +14,6 @@ MEDIA_ROOT = "/media/"
 
 STATIC_ROOT = "/static/"
 
-STATIC_URL = f'"{os.environ.get("AWS_S3_URL")}"/static'
+STATIC_URL = f'"{os.environ.get("AWS_S3_URL")}"/static/'
 
-MEDIA_URL = f'"{os.environ.get("AWS_S3_URL")}"/media'
+MEDIA_URL = f'"{os.environ.get("AWS_S3_URL")}"/media/'
