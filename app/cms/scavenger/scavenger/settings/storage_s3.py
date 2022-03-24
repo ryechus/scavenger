@@ -17,3 +17,5 @@ STATIC_ROOT = "/static/"
 STATIC_URL = f'{os.environ.get("AWS_S3_URL")}/static/'
 
 MEDIA_URL = f'{os.environ.get("AWS_S3_URL")}/media/'
+
+AWS_QUERYSTRING_AUTH = False
