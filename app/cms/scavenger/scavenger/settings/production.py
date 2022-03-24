@@ -1,3 +1,5 @@
+import os  # noqa
+
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
@@ -17,6 +19,7 @@ sentry_sdk.init(
 )
 
 ALLOWED_HOSTS = ["*"]
+CSRF_TRUSTED_ORIGINS = ["https://scavenger.news"]
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 
 DEBUG = False
