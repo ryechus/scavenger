@@ -14,6 +14,10 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v2
 
+      - name: Terraform Init
+        run: terraform init
+        working-directory: ./infrastructure/tasks
+
       - name: Terraform Plan
         run: terraform plan -out tfplan
         working-directory: ./infrastructure/tasks
