@@ -1,8 +1,8 @@
 import os
 
-DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+DEFAULT_FILE_STORAGE = "scavenger.storage.MediaRootS3BotoStorage"
 
-STATICFILES_STORAGE = "storages.backends.s3boto3.S3StaticStorage"
+STATICFILES_STORAGE = "scavenger.storage.StaticRootS3BotoStorage"
 
 AWS_STORAGE_BUCKET_NAME = os.environ.get(
     "AWS_S3_STORAGE_BUCKET", "scavenger-django-storage"
@@ -14,6 +14,6 @@ MEDIA_ROOT = "/media/"
 
 STATIC_ROOT = "/static/"
 
-STATIC_URL = f'"{os.environ.get("AWS_S3_URL")}"/static/'
+STATIC_URL = f'{os.environ.get("AWS_S3_URL")}/static/'
 
-MEDIA_URL = f'"{os.environ.get("AWS_S3_URL")}"/media/'
+MEDIA_URL = f'{os.environ.get("AWS_S3_URL")}/media/'
