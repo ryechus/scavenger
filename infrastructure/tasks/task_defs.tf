@@ -12,8 +12,8 @@ resource "aws_ecs_task_definition" "scavenger" {
       name      = "scavenger"
       image     = "188863028714.dkr.ecr.us-west-1.amazonaws.com/scavenger_blog:${var.source_code_version}"
       command   = ["./manage.py", "runserver", "0.0.0.0:8000"]
-      cpu       = 512
-      memory    = 1024
+      cpu       = 256
+      memory    = 512
       essential = true
       portMappings = [
         {
