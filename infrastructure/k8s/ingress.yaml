@@ -1,0 +1,51 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: scavenger-ingress
+  labels:
+    name: scavenger-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+spec:
+  rules:
+    - host: registry.k8s
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: docker-registry
+                port:
+                  number: 5000
+    - host: scavenger.k8s
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: cms
+                port:
+                  number: 8000
+    - host: demo.scavenger.k8s
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: cms
+                port:
+                  number: 8000
+#    - host: db.scavenger.k8s
+#      http:
+#        paths:
+#        - pathType: Prefix
+#          path: "/"
+#          backend:
+#            service:
+#              name: postgres
+#              port:
+#                number: 5432

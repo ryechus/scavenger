@@ -1,5 +1,6 @@
 terraform {
   backend "s3" {
+    profile = "zilla"
     bucket = "scavenger-terraform-state"
     key    = "statefiles/scavenger-tasks_terraform.tfstate"
     region = "us-west-1"

@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cms-django-migrate
+spec:
+  template:
+    spec:
+      containers:
+        - name: cms-django-migrate
+          image: registry.k8s/scavenger_blog:d3fe9d1f64e88b3a223e9f737bd9952a8d145edb
+          command:
+            - ./manage.py
+            - migrate
+          env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: cms-db-connection
+                  key: DB_HOST
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: cms-db-connection
+                  key: DB_USER
+            - name: DB_PASS
+              valueFrom:
+                configMapKeyRef:
+                  name: cms-db-connection
+                  key: DB_PASSWORD
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: cms-db-connection
+                  key: DB_NAME
+      restartPolicy: Never
+  backoffLimit: 4

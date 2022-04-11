@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cms-db-connection
+data:
+  DB_USER: scavenger
+  DB_PASSWORD: scavenger
+  DB_NAME: scavenger
+  DB_HOST: postgres
+  DB_PORT: "5432"
