@@ -8,6 +8,8 @@ AWS_STORAGE_BUCKET_NAME = os.environ.get(
     "AWS_S3_STORAGE_BUCKET", "scavenger-django-storage"
 )
 
+AWS_LOCATION = os.environ.get("env", "")
+
 AWS_DEFAULT_ACL = "public-read"
 
 MEDIA_ROOT = "/media/"
