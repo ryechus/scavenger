@@ -1,4 +1,5 @@
 from .base import *  # noqa
+from .storage_s3 import *  # noqa
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
