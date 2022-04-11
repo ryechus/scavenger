@@ -1,5 +1,5 @@
 name: Deploy
-on: [push]
+on: [workflow_dispatch]
 env:
   TF_VAR_aws_profile: "default"
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
