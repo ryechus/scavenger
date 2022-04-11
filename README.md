@@ -11,3 +11,7 @@ This is the repository for all scavenger web infrastructure.
     ./manage.py --settings scavenger.settings.local runserver 127.0.0.1:8000
 
 You will then be able to access the server at http://127.0.0.1:8000
+
+## Architecture
+
+[A document that outlines architectural decisions can be found here.](./Architecture.md)
