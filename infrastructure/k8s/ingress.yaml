@@ -9,13 +9,14 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
     cert-manager.io/cluster-issuer: letsencrypt-staging
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   tls:
-  - hosts:
-    - registry.scavenger.news
-    - scavenger.news
-    secretName: scavenger-issuer-account-key
+    - hosts:
+        - hw1.scavenger.news
+        - hw2.scavenger.news
+        - registry.scavenger.news
+        - scavenger.news
+      secretName: scavenger-tls-apr-2022
   rules:
     - host: registry.scavenger.news
       http:
@@ -27,33 +28,13 @@ spec:
                 name: docker-registry
                 port:
                   number: 5000
-#    - host: scavenger.news
-#      http:
-#        paths:
-#          - pathType: Prefix
-#            path: "/"
-#            backend:
-#              service:
-#                name: cms
-#                port:
-#                  number: 8000
-#    - host: demo.scavenger.k8s
-#      http:
-#        paths:
-#          - pathType: Prefix
-#            path: "/"
-#            backend:
-#              service:
-#                name: cms
-#                port:
-#                  number: 8000
-#    - host: db.scavenger.k8s
-#      http:
-#        paths:
-#        - pathType: Prefix
-#          path: "/"
-#          backend:
-#            service:
-#              name: postgres
-#              port:
-#                number: 5432
+    - host: scavenger.news
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: cms
+                port:
+                  number: 8000

@@ -32,7 +32,7 @@ spec:
           - ./manage.py
           - runserver
           - 0.0.0.0:8000
-        image: registry.k8s/scavenger_blog:d3fe9d1f64e88b3a223e9f737bd9952a8d145edb
+        image: registry.scavenger.news/scavenger_blog:427b659426d86315a7696871f440902c98f8bed0
         ports:
         - containerPort: 8000
         env:
@@ -56,6 +56,11 @@ spec:
             configMapKeyRef:
               name: cms-db-connection
               key: DB_NAME
+        - name: DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: cms-db-connection
+              key: DB_PORT
         - name: AWS_S3_ACCESS_KEY_ID
           value: AKIASX6I5DXVPH54ZCEN
         - name: AWS_S3_SECRET_ACCESS_KEY

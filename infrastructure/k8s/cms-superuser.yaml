@@ -7,16 +7,16 @@ spec:
     spec:
       containers:
         - name: cms-django-superuser
-          image: registry.k8s/scavenger_blog:d3fe9d1f64e88b3a223e9f737bd9952a8d145edb
+          image: registry.scavenger.news/scavenger_blog:b28fa2d2a266dbeb9cccb73f731f365223105a16
           command:
             - ./manage.py
             - createsuperuser
             - --no-input
           env:
             - name: DJANGO_SUPERUSER_PASSWORD
-              value: password
+              value: Xo6cnG93etSv
             - name: DJANGO_SUPERUSER_USERNAME
-              value: admin
+              value: mike
             - name: DJANGO_SUPERUSER_EMAIL
               value: admin@scavenger.news
             - name: DB_HOST
@@ -39,5 +39,10 @@ spec:
                 configMapKeyRef:
                   name: cms-db-connection
                   key: DB_NAME
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: cms-db-connection
+                  key: DB_PORT
       restartPolicy: Never
   backoffLimit: 4
