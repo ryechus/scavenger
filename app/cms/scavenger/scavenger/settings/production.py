@@ -3,9 +3,8 @@ import os  # noqa
 from .base import *  # noqa
 from .storage_s3 import *  # noqa
 from .sentry import *  # noqa
+from .hosts import *  # noqa
 
-ALLOWED_HOSTS = ["*"]
-CSRF_TRUSTED_ORIGINS = ["https://scavenger.news"]
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 
 DEBUG = False

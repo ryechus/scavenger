@@ -1,6 +1,7 @@
 from .base import *  # noqa
 from .storage_s3 import *  # noqa
 from .sentry import *  # noqa
+from .hosts import *  # noqa
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
