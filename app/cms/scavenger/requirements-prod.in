@@ -1,2 +1,2 @@
 gunicorn
-uwsgi
+uvicorn
