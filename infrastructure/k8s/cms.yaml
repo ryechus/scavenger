@@ -29,10 +29,11 @@ spec:
       containers:
       - name: cms-django
         command:
-          - ./manage.py
-          - runserver
-          - 0.0.0.0:8000
-        image: registry.scavenger.news/scavenger_blog:427b659426d86315a7696871f440902c98f8bed0
+          - gunicorn
+          - -w
+          - "4"
+          - scavenger.wsgi
+        image: registry.scavenger.news/scavenger_blog:8be321d31942baf9c1ad624653e2584fe2924952
         ports:
         - containerPort: 8000
         env:
