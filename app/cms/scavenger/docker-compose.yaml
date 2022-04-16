@@ -5,12 +5,18 @@ services:
       context: .
       dockerfile: Minimal.Dockerfile
       args:
-        requirements: requirements.in requirements-dev.in
-    command: ./manage.py runserver 0.0.0.0:8000
+        requirements: requirements.in requirements-dev.in requirements-prod.in
+    command:
+      - gunicorn
+      - -w
+      - "1"
+      - --bind=0.0.0.0:8000
+      - scavenger.wsgi
+      - --reload
     working_dir: /app/scavenger
-    env_file:
-      - .env.local
-      - .env.db-local
+#    env_file:
+#      - .env.local
+#      - .env.db-local
 #      - local-dev.env
     environment:
       - DJANGO_SETTINGS_MODULE=scavenger.settings.local
@@ -19,9 +25,9 @@ services:
       - ./:/app/scavenger
     ports:
       - 8000:8000
-    depends_on:
-      - postgres
-  postgres:
-    image: postgres
-    env_file:
-      - .env.postgres
+#    depends_on:
+#      - postgres
+#  postgres:
+#    image: postgres
+#    env_file:
+#      - .env.postgres

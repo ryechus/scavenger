@@ -7,7 +7,7 @@ spec:
     spec:
       containers:
         - name: cms-django-collectstatic
-          image: registry.scavenger.news/scavenger_blog:b28fa2d2a266dbeb9cccb73f731f365223105a16
+          image: registry.scavenger.news/scavenger_blog:54295782966a6d760b34a69e6f5d339a2d441061
           command:
             - ./manage.py
             - collectstatic

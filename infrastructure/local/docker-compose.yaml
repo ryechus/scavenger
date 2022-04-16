@@ -1,0 +1,12 @@
+version: "3.8"
+networks:
+  elk:
+services:
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.1.2
+    networks:
+      - elk
+    volumes:
+      - ./pipeline/:/usr/share/logstash/pipeline/
+    ports:
+      - 50505:50505
