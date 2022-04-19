@@ -1,3 +1,4 @@
 gunicorn
 uvicorn
 psycopg2-binary
+django-db-connection-pool[postgresql]
