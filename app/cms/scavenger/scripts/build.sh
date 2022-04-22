@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 commit_sha=$(git rev-parse HEAD)
-repo_url="registry.scavenger.news/scavenger_blog"
+repo_url="ryechus/scavenger-wagtail"
 
 dir_path=$(cd $(dirname "${BASH_SOURCE:-$0}") && pwd)
 
