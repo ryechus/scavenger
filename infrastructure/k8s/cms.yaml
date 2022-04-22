@@ -17,7 +17,7 @@ metadata:
   labels:
     app: cms
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: cms
@@ -26,17 +26,22 @@ spec:
       labels:
         app: cms
     spec:
+      imagePullSecrets:
+        - name: docker.io.auth
       containers:
       - name: cms-django
         command:
           - gunicorn
           - -w
-          - "2"
+          - "3"
           - --bind=0.0.0.0:8000
-          - scavenger.asgi
-          - -k
-          - uvicorn.workers.UvicornWorker
-        image: registry.scavenger.news/scavenger_blog:54295782966a6d760b34a69e6f5d339a2d441061
+          - --keep-alive
+          - "10"
+          - scavenger.wsgi
+#          - scavenger.asgi
+#          - -k
+#          - uvicorn.workers.UvicornWorker
+        image: ryechus/scavenger-wagtail:7c6c5931b66bf93e8d0614b6c6599acd6d20fddd
         ports:
         - containerPort: 8000
         env:
