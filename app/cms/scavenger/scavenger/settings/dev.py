@@ -30,16 +30,11 @@ LOGGING = {
 
 DATABASES = {
     "default": {
-        "ENGINE": "dj_db_conn_pool.backends.postgresql",
+        "ENGINE": "django.db.backends.postgresql",
         "NAME": os.environ.get("DB_NAME"),
         "USER": os.environ.get("DB_USER"),
         "PASSWORD": os.environ.get("DB_PASS"),
         "HOST": os.environ.get("DB_HOST"),
-        "PORT": os.environ.get("DB_PORT"),
-        'POOL_OPTIONS': {
-            'POOL_SIZE': 10,
-            'MAX_OVERFLOW': 10,
-            'RECYCLE': 24 * 60 * 60
-        }
+        "PORT": os.environ.get("DB_PORT")
     }
 }
