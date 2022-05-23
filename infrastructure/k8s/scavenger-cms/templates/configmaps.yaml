@@ -1,0 +1,7 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cms-db-connection
+data:
+  DB_PORT: "25060"

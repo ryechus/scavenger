@@ -4,3 +4,4 @@ jinja2
 sentry-sdk
 django-storages
 boto3
+jsonformatter

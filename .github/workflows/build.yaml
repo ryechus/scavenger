@@ -1,0 +1,35 @@
+name: Build
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./app/cms/scavenger
+          file: ./app/cms/scavenger/Minimal.Dockerfile
+          push: true
+          build-args: |
+            docker_image_tag=base-103d8cb0fcea26d40bc000572ba5a90412fd4b10
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/scavenger-wagtail:${{ github.sha }}
+      - name: Helm Install/Upgrade
+        uses: ./.github/actions/helm
+        with:
+          release_name: scavenger-cms
+          chart: ./infrastructure/k8s/scavenger-cms
+          image_tag: ${{ github.sha }}
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.SCAVENGER_K8S_CONFIG }}

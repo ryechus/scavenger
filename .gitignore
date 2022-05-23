@@ -6,3 +6,6 @@ tfplan
 *.env*
 **/settings/local.py
 *.tfstate
+*.code-workspace
+app/services
+infrastructure/k8s/docker-auth.yaml

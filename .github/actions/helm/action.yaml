@@ -1,0 +1,26 @@
+# action.yml
+name: 'Release Helm Chart'
+description: 'Releases the Scavenger CMS helm chart'
+inputs:
+  chart:  # id of input
+    description: 'Helm chart to release'
+    required: true
+  release_name:
+    description: 'Name of the release of the chart'
+    required: true
+  image_tag:
+    description: "Docker image tag that will be deployed"
+    required: true
+outputs:
+  time: # id of output
+    description: 'The time we greeted you'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - upgrade
+    - ${{ inputs.release_name }}
+    - ${{ inputs.chart }}
+    - --install
+    - --set
+    - image.tag=${{ inputs.image_tag }}

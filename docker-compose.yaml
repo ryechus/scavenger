@@ -2,10 +2,11 @@ version: "3.8"
 services:
   django:
     build:
-      context: .
+      context: ./app/cms/scavenger
       dockerfile: Minimal.Dockerfile
       args:
         requirements: requirements.in requirements-dev.in requirements-prod.in
+        docker_image_tag: base-103d8cb0fcea26d40bc000572ba5a90412fd4b10
     command:
       - gunicorn
       - -w
@@ -14,17 +15,15 @@ services:
       - scavenger.wsgi
       - --reload
     working_dir: /app/scavenger
-#    env_file:
-#      - .env.local
-#      - .env.db-local
-#      - local-dev.env
     environment:
       - DJANGO_SETTINGS_MODULE=scavenger.settings.local
       - DJANGO_SECRET_KEY='test'
     volumes:
-      - ./:/app/scavenger
+      - ./app/cms/scavenger:/app/scavenger
     ports:
       - 8000:8000
+  fluentd:
+    image: fluent/fluent-bit:1.9.1
 #    depends_on:
 #      - postgres
 #  postgres:
