@@ -7,7 +7,7 @@ if [ $last_exit -eq 0 ]; then
     exit
 fi
 
-commit_sha=$(git rev-parse HEAD)
+commit_sha=$(git rev-parse --short HEAD)
 repo_url="ryechus/scavenger-wagtail"
 image_tag="base-$commit_sha"
 full_image_str=$repo_url:$image_tag
