@@ -11,6 +11,9 @@ inputs:
   image_tag:
     description: "Docker image tag that will be deployed"
     required: true
+  replicaCount:
+    default: "1"
+    description: "Number of running replicas of the CMS service"
 outputs:
   time: # id of output
     description: 'The time we greeted you'
@@ -27,3 +30,5 @@ runs:
     - 30s
     - --set
     - image.tag=${{ inputs.image_tag }}
+    - --set
+    - replicaCount=${{ inputs.replicaCount }}

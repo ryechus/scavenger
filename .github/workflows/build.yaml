@@ -4,8 +4,17 @@ on:
     branches:
       - main
 jobs:
+  check:
+    outputs:
+      status: ${{ steps.early.conclusion }}
+    steps:
+      - id: has_changes
+        name: Early exit
+        run: |
+          bash app/cms/scavenger/scripts/has_changes.sh
   build:
     runs-on: ubuntu-latest
+    if: needs.check.outputs.status == 'success'
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -31,5 +40,6 @@ jobs:
           release_name: scavenger-cms
           chart: ./infrastructure/k8s/scavenger-cms
           image_tag: ${{ github.sha }}
+          replicaCount: 2
         env:
           KUBE_CONFIG_DATA: ${{ secrets.SCAVENGER_K8S_CONFIG }}
