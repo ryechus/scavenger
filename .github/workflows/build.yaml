@@ -4,17 +4,8 @@ on:
     branches:
       - main
 jobs:
-  check:
-    outputs:
-      status: ${{ steps.early.conclusion }}
-    steps:
-      - id: has_changes
-        name: Early exit
-        run: |
-          bash app/cms/scavenger/scripts/has_changes.sh
   build:
     runs-on: ubuntu-latest
-    if: needs.check.outputs.status == 'success'
     steps:
       - name: Checkout
         uses: actions/checkout@v2
