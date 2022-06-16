@@ -27,7 +27,7 @@ runs:
     - --install
     - --wait
     - --timeout
-    - 30s
+    - 180s
     - --set
     - image.tag=${{ inputs.image_tag }}
     - --set
