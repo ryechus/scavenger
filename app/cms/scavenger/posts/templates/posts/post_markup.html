@@ -21,7 +21,7 @@
         </a>
 
         <p class="postTags">
-            {% for tag in post.tags.all %}
+            {% for tag in post.tags.all[:3] %}
                 <a href="{% url 'posts:tags' tag.name %}">#{{ tag }}</a>
             {% endfor %}
         </p>
