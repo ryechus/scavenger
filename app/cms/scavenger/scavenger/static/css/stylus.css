@@ -56,6 +56,7 @@ img.postImage {
   font-size: 0.8em;
   color: #737378;
   float: right;
+  text-transform: lowercase;
 }
 hr.post-start {
   margin-bottom: 25px;
@@ -90,7 +91,7 @@ a.noStyle {
   font-weight: initial;
   text-transform: initial;
 }
-
+@import 'bootstrap/*.css';
 body {
   margin: 0;
   font-family: 'Heebo', sans-serif;
