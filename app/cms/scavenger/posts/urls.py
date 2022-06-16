@@ -4,5 +4,6 @@ from . import views
 
 app_name = "posts"
 urlpatterns = [
-    path("tag/<str:tag>", views.get_posts_by_tag, name="tags"),
+    path("artist/<str:artist_name>", views.get_posts_by_artist_name, name="artist"),
+    path("tag/<str:tag>", views.get_posts_by_tag, name="tag"),
 ]

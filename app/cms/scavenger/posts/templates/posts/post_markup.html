@@ -22,7 +22,7 @@
 
         <p class="postTags">
             {% for tag in post.tags.all|slice:":3" %}
-                <a href="{% url 'posts:tags' tag.name %}">#{{ tag }}</a>
+                <a href="{% url 'posts:tag' tag.name %}">#{{ tag }}</a>
             {% endfor %}
         </p>
         <p class="postDate">{{ post.first_published_at|localtime|naturalday }}</p>
