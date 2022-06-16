@@ -23,7 +23,7 @@ class Post(Page):
         FieldPanel("body"),
         FieldPanel("tags"),
     ]
-    settings_panels = Page.settings_panels + [FieldPanel("first_published_at")]
+    settings_panels = [FieldPanel("first_published_at", heading="Publish date")] + Page.settings_panels
     context_object_name = "post"
 
     class Meta:
