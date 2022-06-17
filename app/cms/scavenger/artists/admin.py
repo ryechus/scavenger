@@ -21,5 +21,9 @@ class ArtistsAdmin(ModelAdmin):
         html = f"<a href='{path}'>View Posts</a>"
         return mark_safe(html)
 
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.all().distinct("tag__name").order_by("tag__name")
+
 
 modeladmin_register(ArtistsAdmin)
