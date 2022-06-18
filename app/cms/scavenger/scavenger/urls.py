@@ -1,17 +1,17 @@
 from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
+from posts import urls as post_urls
+from search import views as search_views
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.core import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
-
-from posts import urls as post_urls
-from search import views as search_views
 
 from . import views
 
 urlpatterns = [
     path("health/", views.health_check),
+    path("version/", views.source_code_version),
     path("django-admin/", admin.site.urls),
     path("admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
