@@ -2,7 +2,7 @@
 <div class="row no-gutters">
     <div class="post col-xs-12 col-md-6 offset-md-3">
         {% for p_img in post.post_images.all|slice:":1" %}
-            {% image p_img.image original fill-640x640 as p_img %}
+            {% image p_img.image fill-640x640 as p_img %}
             <a href="{% pageurl post %}">
                 <img class="postImage" src="{{ p_img.url }}" alt="">
             </a>
