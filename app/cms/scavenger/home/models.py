@@ -28,7 +28,7 @@ class HomePage(Page):
             .prefetch_related(Prefetch("post_images__image__renditions", queryset=renditions_queryset))
             .order_by("-first_published_at")
         )
-        paginator = Paginator(posts, 25)
+        paginator = Paginator(posts, 5)
 
         page = request.GET.get("page")
         try:
