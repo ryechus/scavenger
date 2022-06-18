@@ -10,7 +10,7 @@ Delete the line below if you're just getting started and want to remove the welc
         {% for post in posts %}
             {% include "posts/post_markup.html" %}
         {% endfor %}
-        <div style="display: flex; justify-content: space-around; margin-bottom: 100px;">
+        <div style="display: flex; justify-content: space-around; margin-bottom: 50px;">
             <ul class="pagination">
                 {% if posts.has_previous %}
                 <li><a href="?page={{ posts.previous_page_number }}">previous</a></li>
