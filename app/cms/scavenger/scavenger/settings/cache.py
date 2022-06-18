@@ -2,7 +2,6 @@ CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
         "LOCATION": "redis://scavenger-redis-master:6379",
-        "TIMEOUT": 180,
     },
     "renditions": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",

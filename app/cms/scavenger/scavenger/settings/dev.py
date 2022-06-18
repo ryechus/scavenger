@@ -22,6 +22,8 @@ MIDDLEWARE = [
     "django.middleware.cache.FetchFromCacheMiddleware",
 ] + MIDDLEWARE
 
+CACHE_MIDDLEWARE_SECONDS = 45
+
 # As far as I can tell this is the default subnet cidr for kubernetes default namespace
 ALLOWED_CIDR_NETS = ["10.244.0.0/16"]
 
