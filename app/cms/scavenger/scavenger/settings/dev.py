@@ -8,10 +8,10 @@ from .storage_s3 import *  # noqa
 DEBUG = False
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-$+!7w!%mireedhxlzi73do&fgz8+-3m9w*ch-r!0xvz^fu=r6@"
+SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 
 # SECURITY WARNING: define the correct hosts in production!
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["scavenger.news"]
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
@@ -25,7 +25,7 @@ LOGGING = {
     },
     "root": {
         "handlers": ["console"],
-        "level": "DEBUG",
+        "level": "INFO",
     },
 }
 

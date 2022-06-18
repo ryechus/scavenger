@@ -71,6 +71,11 @@ ingress:
 
 cms:
   env_vars:
+  - name: DJANGO_SECRET_KEY
+    valueFrom:
+      secretKeyRef:
+        name: scavenger-django-secret-key
+        key: DJANGO_SECRET_KEY
   - name: DB_HOST
     valueFrom:
       secretKeyRef:
