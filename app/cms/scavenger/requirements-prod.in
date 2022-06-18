@@ -1,3 +1,5 @@
 gunicorn
 uvicorn
 psycopg2-binary
+redis
+hiredis

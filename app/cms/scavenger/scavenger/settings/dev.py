@@ -1,7 +1,8 @@
 from .base import *  # noqa
-from .storage_s3 import *  # noqa
-from .sentry import *  # noqa
+from .cache import *  # noqa
 from .hosts import *  # noqa
+from .sentry import *  # noqa
+from .storage_s3 import *  # noqa
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -35,6 +36,6 @@ DATABASES = {
         "USER": os.environ.get("DB_USER"),
         "PASSWORD": os.environ.get("DB_PASS"),
         "HOST": os.environ.get("DB_HOST"),
-        "PORT": os.environ.get("DB_PORT")
+        "PORT": os.environ.get("DB_PORT"),
     }
 }
