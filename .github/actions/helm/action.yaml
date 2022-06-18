@@ -25,6 +25,7 @@ runs:
     - ${{ inputs.release_name }}
     - ${{ inputs.chart }}
     - --install
+    - --wait
     - --set
     - image.tag=${{ inputs.image_tag }}
     - --set
