@@ -7,6 +7,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Announce Build
+        id: slack
+        uses: slackapi/slack-github-action@v1.19.0
+        with:
+          # Slack channel id, channel name, or user id to post message.
+          # See also: https://api.slack.com/methods/chat.postMessage#channels
+          channel-id: 'deployments'
+          # For posting a simple plain text message
+          slack-message: |
+            Starting a new build: ${{ github.event.pull_request.html_url || github.event.head_commit.url }}
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
       - name: Checkout
         uses: actions/checkout@v2
       - name: Login to Docker Hub
@@ -34,3 +46,16 @@ jobs:
           replicaCount: 2
         env:
           KUBE_CONFIG_DATA: ${{ secrets.SCAVENGER_K8S_CONFIG }}
+      - name: Announce Result
+        id: slack
+        uses: slackapi/slack-github-action@v1.19.0
+        with:
+          # Slack channel id, channel name, or user id to post message.
+          # See also: https://api.slack.com/methods/chat.postMessage#channels
+          channel-id: 'deployments'
+          # For posting a simple plain text message
+          slack-message: |
+            Finished build result: ${{ job.status }}
+            ${{ github.event.pull_request.html_url || github.event.head_commit.url }}
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
