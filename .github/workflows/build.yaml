@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Announce Build
-        id: slack
+        id: slack_announce_build
         uses: slackapi/slack-github-action@v1.19.0
         with:
           # Slack channel id, channel name, or user id to post message.
@@ -47,7 +47,7 @@ jobs:
         env:
           KUBE_CONFIG_DATA: ${{ secrets.SCAVENGER_K8S_CONFIG }}
       - name: Announce Result
-        id: slack
+        id: slack_announce_result
         uses: slackapi/slack-github-action@v1.19.0
         with:
           # Slack channel id, channel name, or user id to post message.
