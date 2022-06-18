@@ -15,7 +15,12 @@ ALLOWED_HOSTS = ["*"]
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-MIDDLEWARE = ["allow_cidr.middleware.AllowCIDRMiddleware"] + MIDDLEWARE
+MIDDLEWARE = [
+    "allow_cidr.middleware.AllowCIDRMiddleware",
+    "django.middleware.cache.UpdateCacheMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.cache.FetchFromCacheMiddleware",
+] + MIDDLEWARE
 
 # As far as I can tell this is the default subnet cidr for kubernetes default namespace
 ALLOWED_CIDR_NETS = ["10.244.0.0/16"]
