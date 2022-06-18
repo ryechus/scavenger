@@ -13,5 +13,6 @@ sentry_sdk.init(
     # If you wish to associate users to errors (assuming you are using
     # django.contrib.auth) you may enable sending PII data.
     send_default_pii=True,
-    environment=os.environ.get('env', "dev")
+    environment=os.environ.get("env", "dev"),
+    release=os.environ.get("SOURCE_CODE_VERSION"),
 )

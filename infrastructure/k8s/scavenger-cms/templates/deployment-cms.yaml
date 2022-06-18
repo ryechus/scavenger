@@ -63,6 +63,8 @@ spec:
             {{- toYaml .Values.cms.env_vars | nindent 12 }}
             - name: env
               value: {{ .Values.environment.name }}
+            - name: SOURCE_CODE_VERSION
+              value: {{ .Values.image.tag | default .Release.Name }}
           livenessProbe:
             httpGet:
               path: /health
