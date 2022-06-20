@@ -16,7 +16,12 @@ jobs:
           channel-id: 'deployments'
           # For posting a simple plain text message
           slack-message: |
-            Starting a new build: ${{ github.event.pull_request.html_url || github.event.head_commit.url }}
+            :rocket: **Deployment Starting**
+            
+            _service_: scavenger-cms
+            _workflow run_: https://github.com/ryechus/scavenger/actions/runs/${{ github.run_id }}
+            
+            _${{ github.event.pull_request.html_url || github.event.head_commit.url }}_
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
       - name: Checkout
@@ -46,16 +51,41 @@ jobs:
           replicaCount: 2
         env:
           KUBE_CONFIG_DATA: ${{ secrets.SCAVENGER_K8S_CONFIG }}
-      - name: Announce Result
-        id: slack_announce_result
+      - name: Announce Success
+        id: slack_announce_success
         uses: slackapi/slack-github-action@v1.19.0
+        if: ${{ job.status == 'success' }}
         with:
           # Slack channel id, channel name, or user id to post message.
           # See also: https://api.slack.com/methods/chat.postMessage#channels
           channel-id: 'deployments'
           # For posting a simple plain text message
           slack-message: |
-            Finished build result: ${{ job.status }}
-            ${{ github.event.pull_request.html_url || github.event.head_commit.url }}
+            :white_check_mark: **Deployment Successful**
+            
+            _service_: scavenger-cms
+            _workflow run_: https://github.com/ryechus/scavenger/actions/runs/${{ github.run_id }}
+            
+            _${{ github.event.pull_request.html_url || github.event.head_commit.url }}_
+            
+            https://scavenger.news
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      - name: Announce Failure
+        id: slack_announce_failure
+        uses: slackapi/slack-github-action@v1.19.0
+        if: ${{ job.status != 'success' }}
+        with:
+          # Slack channel id, channel name, or user id to post message.
+          # See also: https://api.slack.com/methods/chat.postMessage#channels
+          channel-id: 'deployments'
+          # For posting a simple plain text message
+          slack-message: |
+            :x: **Deployment Failed**
+
+            _service_: scavenger-cms
+            _workflow run_: https://github.com/ryechus/scavenger/actions/runs/${{ github.run_id }}
+
+            _${{ github.event.pull_request.html_url || github.event.head_commit.url }}_
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
