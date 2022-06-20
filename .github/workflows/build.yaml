@@ -16,12 +16,12 @@ jobs:
           channel-id: 'deployments'
           # For posting a simple plain text message
           slack-message: |
-            :rocket: **Deployment Starting**
+            :rocket: *Deployment Starting*
             
             _service_: scavenger-cms
             _workflow run_: https://github.com/ryechus/scavenger/actions/runs/${{ github.run_id }}
             
-            _${{ github.event.pull_request.html_url || github.event.head_commit.url }}_
+            ${{ github.event.pull_request.html_url || github.event.head_commit.url }}
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
       - name: Checkout
@@ -61,12 +61,12 @@ jobs:
           channel-id: 'deployments'
           # For posting a simple plain text message
           slack-message: |
-            :white_check_mark: **Deployment Successful**
+            :white_check_mark: *Deployment Successful*
             
             _service_: scavenger-cms
             _workflow run_: https://github.com/ryechus/scavenger/actions/runs/${{ github.run_id }}
             
-            _${{ github.event.pull_request.html_url || github.event.head_commit.url }}_
+            ${{ github.event.pull_request.html_url || github.event.head_commit.url }}
             
             https://scavenger.news
         env:
@@ -81,11 +81,11 @@ jobs:
           channel-id: 'deployments'
           # For posting a simple plain text message
           slack-message: |
-            :x: **Deployment Failed**
+            :x: *Deployment Failed*
 
             _service_: scavenger-cms
             _workflow run_: https://github.com/ryechus/scavenger/actions/runs/${{ github.run_id }}
 
-            _${{ github.event.pull_request.html_url || github.event.head_commit.url }}_
+            ${{ github.event.pull_request.html_url || github.event.head_commit.url }}
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
