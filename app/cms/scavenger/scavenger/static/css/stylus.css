@@ -114,7 +114,7 @@ form input {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 17px 0;
+  margin-bottom: 17px;
 }
 .topBar .title {
   font-weight: 800;
