@@ -19,7 +19,7 @@ outputs:
     description: 'The time we greeted you'
 runs:
   using: 'docker'
-  image: 'ryechus/helm:0.1'
+  image: 'ryechus/helm:0.1.1'
   args:
     - upgrade
     - ${{ inputs.release_name }}
