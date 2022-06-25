@@ -26,6 +26,8 @@ runs:
     - ${{ inputs.chart }}
     - --install
     - --wait
+    - --timeout
+    - 300
     - --set
     - image.tag=${{ inputs.image_tag }}
     - --set
