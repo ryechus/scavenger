@@ -39,13 +39,6 @@
 {% wagtailuserbar %}
 
 {% block content %}{% endblock %}
-
-{# Global javascript #}
-<script type="text/javascript" src="{% static 'js/scavenger.js' %}"></script>
-
-{% block extra_js %}
-    {# Override this in templates to add extra javascript #}
-{% endblock %}
 <footer style="position: absolute; display: flex; justify-content: space-around;
                align-items: center; width: 100vw; height: 40px; align-items: center;
                bottom: 0">
@@ -54,6 +47,11 @@
             Rights Reserved.</p>
     </div>
 </footer>
+{# Global javascript #}
+<script type="text/javascript" src="{% static 'js/scavenger.js' %}"></script>
 
+{% block extra_js %}
+    {# Override this in templates to add extra javascript #}
+{% endblock %}
 </body>
 </html>
