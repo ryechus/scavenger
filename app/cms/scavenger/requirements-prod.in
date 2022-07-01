@@ -4,3 +4,4 @@ psycopg2-binary
 redis
 hiredis
 django-allow-cidr
+elastic-apm

@@ -1,5 +1,6 @@
 from .base import *  # noqa
-from .cache import *  # noqa
+
+# from .cache import *  # noqa
 from .hosts import *  # noqa
 from .sentry import *  # noqa
 from .storage_s3 import *  # noqa
@@ -14,6 +15,14 @@ SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 ALLOWED_HOSTS = ["*"]
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+INSTALLED_APPS += ["elasticapm.contrib.django"]
+
+ELASTIC_APM = {
+    "SERVICE_NAME": "scavenger-cms",
+    "SERVER_URL": "http://elasticsearch:8200",
+    "SECRET_TOKEN": SECRET_KEY,
+}
 
 MIDDLEWARE = [
     "allow_cidr.middleware.AllowCIDRMiddleware",

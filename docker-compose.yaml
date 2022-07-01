@@ -1,12 +1,13 @@
 version: "3.8"
 services:
   django:
+#    image: ryechus/scavenger-wagtail:0e80cdc1f71433e9166fe9499daa0b5c811f6d09
     build:
       context: ./app/cms/scavenger
       dockerfile: Minimal.Dockerfile
       args:
         requirements: requirements.in requirements-dev.in requirements-prod.in
-        docker_image_tag: base-103d8cb0fcea26d40bc000572ba5a90412fd4b10
+        docker_image_tag: base-ee82780
     command:
       - gunicorn
       - -w
