@@ -43,7 +43,7 @@ jobs:
           file: ./app/cms/scavenger/Minimal.Dockerfile
           push: true
           build-args: |
-            docker_image_tag=base-ee82780
+            docker_image_tag=base-698e196
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/scavenger-wagtail:${{ github.sha }}
       - name: Helm Install/Upgrade
         uses: ./.github/actions/helm
