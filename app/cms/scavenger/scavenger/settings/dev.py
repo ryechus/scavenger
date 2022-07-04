@@ -23,7 +23,7 @@ ELASTIC_APM = {
     # a-z, A-Z, 0-9, -, _, and space
     "SERVICE_NAME": "scavenger-cms",
     # Use if APM Server requires a secret token
-    "SECRET_TOKEN": os.environ.get("ELASTIC_APM_SECRET_TOKEN"),
+    "SECRET_TOKEN": os.environ.get("ELASTIC_APM_SECRET"),
     # Set the custom APM Server URL (default: http://localhost:8200)
     "SERVER_URL": os.environ.get("ELASTIC_APM_SERVER_URL"),
     # Set the service environment
