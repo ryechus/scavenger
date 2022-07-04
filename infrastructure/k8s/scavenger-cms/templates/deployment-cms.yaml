@@ -20,6 +20,8 @@ metadata:
   name: {{ include "scavenger-cms.fullname" . }}
   labels:
     {{- include "scavenger-cms.labels" . | nindent 4 }}
+  annotations:
+    rollme: {{ randAlphaNum 5 | quote }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
