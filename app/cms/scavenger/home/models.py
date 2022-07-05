@@ -26,6 +26,8 @@ class HomePage(Page):
             .live()
             .filter(spotlight_parent__isnull=True)
             .prefetch_related(Prefetch("post_images__image__renditions", queryset=renditions_queryset))
+            .prefetch_related(Prefetch("tags"))
+            .prefetch_related(Prefetch("artists"))
             .order_by("-first_published_at")
         )
         paginator = Paginator(posts, 12)
