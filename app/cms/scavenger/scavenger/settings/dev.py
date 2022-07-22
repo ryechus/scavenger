@@ -16,23 +16,23 @@ ALLOWED_HOSTS = ["*"]
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-INSTALLED_APPS += ["elasticapm.contrib.django"]
+# INSTALLED_APPS += ["elasticapm.contrib.django"]
 
-ELASTIC_APM = {
-    # Set the required service name. Allowed characters:
-    # a-z, A-Z, 0-9, -, _, and space
-    "SERVICE_NAME": "scavenger-cms",
-    # Use if APM Server requires a secret token
-    "SECRET_TOKEN": os.environ.get("ELASTIC_APM_SECRET"),
-    # Set the custom APM Server URL (default: http://localhost:8200)
-    "SERVER_URL": os.environ.get("ELASTIC_APM_SERVER_URL"),
-    # Set the service environment
-    "ENVIRONMENT": "dev",
-}
+# ELASTIC_APM = {
+#     # Set the required service name. Allowed characters:
+#     # a-z, A-Z, 0-9, -, _, and space
+#     "SERVICE_NAME": "scavenger-cms",
+#     # Use if APM Server requires a secret token
+#     "SECRET_TOKEN": os.environ.get("ELASTIC_APM_SECRET"),
+#     # Set the custom APM Server URL (default: http://localhost:8200)
+#     "SERVER_URL": os.environ.get("ELASTIC_APM_SERVER_URL"),
+#     # Set the service environment
+#     "ENVIRONMENT": os.environ.get("ENVIRONMENT"),
+# }
 
 MIDDLEWARE = [
     "allow_cidr.middleware.AllowCIDRMiddleware",
-    "elasticapm.contrib.django.middleware.TracingMiddleware",
+    # "elasticapm.contrib.django.middleware.TracingMiddleware",
     "django.middleware.cache.UpdateCacheMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.cache.FetchFromCacheMiddleware",
