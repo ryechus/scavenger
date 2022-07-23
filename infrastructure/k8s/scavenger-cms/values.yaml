@@ -42,32 +42,32 @@ service:
   type: ClusterIP
   port: 8000
 
-ingress:
-  enabled: true
-  className: ""
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/proxy-body-size: "0"
-    cert-manager.io/cluster-issuer: letsencrypt-staging
-  hosts:
-    - host: scavenger.news
-      paths:
-        - pathType: Prefix
-          path: "/"
-          backend:
-            service:
-              name: cms
-              port:
-                number: 8000
-
-  tls:
-    - hosts:
-      - hw1.scavenger.news
-      - hw2.scavenger.news
-      - registry.scavenger.news
-      - scavenger.news
-      secretName: scavenger-tls-apr-2022
+#ingress:
+#  enabled: true
+#  className: ""
+#  annotations:
+#    kubernetes.io/ingress.class: nginx
+#    nginx.ingress.kubernetes.io/rewrite-target: /
+#    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+#    cert-manager.io/cluster-issuer: letsencrypt-staging
+#  hosts:
+#    - host: scavenger.news
+#      paths:
+#        - pathType: Prefix
+#          path: "/"
+#          backend:
+#            service:
+#              name: cms
+#              port:
+#                number: 8000
+#
+#  tls:
+#    - hosts:
+#      - hw1.scavenger.news
+#      - hw2.scavenger.news
+#      - registry.scavenger.news
+#      - scavenger.news
+#      secretName: scavenger-tls-apr-2022
 
 cms:
   env_vars:
