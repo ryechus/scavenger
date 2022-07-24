@@ -12,22 +12,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - hw1.scavenger.news
-        - hw2.scavenger.news
-        - registry.scavenger.news
         - scavenger.news
+        - services.scavenger.news
       secretName: scavenger-tls-apr-2022
   rules:
-    - host: registry.scavenger.news
-      http:
-        paths:
-          - pathType: Prefix
-            path: "/"
-            backend:
-              service:
-                name: docker-registry
-                port:
-                  number: 5000
     - host: scavenger.news
       http:
         paths:
@@ -35,6 +23,16 @@ spec:
             path: "/"
             backend:
               service:
-                name: cms
+                name: scavenger-cms
+                port:
+                  number: 8000
+    - host: services.scavenger.news
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/image"
+            backend:
+              service:
+                name: scavenger-images
                 port:
                   number: 8000
