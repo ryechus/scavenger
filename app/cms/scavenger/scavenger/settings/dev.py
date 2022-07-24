@@ -1,6 +1,5 @@
 from .base import *  # noqa
-
-# from .cache import *  # noqa
+from .cache import *  # noqa
 from .hosts import *  # noqa
 from .sentry import *  # noqa
 from .storage_s3 import *  # noqa
