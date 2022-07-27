@@ -13,7 +13,7 @@ spec:
   tls:
     - hosts:
         - scavenger.news
-        - services.scavenger.news
+        - images.scavenger.news
       secretName: scavenger-tls-apr-2022
   rules:
     - host: scavenger.news
@@ -26,11 +26,11 @@ spec:
                 name: scavenger-cms
                 port:
                   number: 8000
-    - host: services.scavenger.news
+    - host: images.scavenger.news
       http:
         paths:
           - pathType: Prefix
-            path: "/image"
+            path: "/"
             backend:
               service:
                 name: scavenger-images
