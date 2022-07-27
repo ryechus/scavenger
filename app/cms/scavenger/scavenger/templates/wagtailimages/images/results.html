@@ -17,7 +17,7 @@
 
     <ul class="listing horiz images">
         {% for image in images %}
-            <li>
+            <li style="position: relative">
                 <a class="image-choice" title="{% if collections %}{{ image.collection.name }} » {% endif %}{{ image.title }}" href="{% url 'wagtailimages:edit' image.id %}">
                     <figure>
                         {% include "wagtailimages/images/results_image.html" %}
@@ -28,6 +28,9 @@
                         </figcaption>
                     </figure>
                 </a>
+                <p class="palette" style="position: absolute; bottom: -8px; right: 12px;">
+                    {% if image.post_images.exists %}<svg style="width: 25px; height: 25px; fill: #217400" class="icon icon-success" aria-hidden="true" focusable="false"><use href="#icon-success"></use></svg>{% endif %}
+                </p>
             </li>
         {% endfor %}
     </ul>
