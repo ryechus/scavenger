@@ -1,0 +1,31 @@
+{% load wagtailimages_tags wagtailadmin_tags %}
+{% load i18n %}
+{% if images %}
+    {% if is_searching %}
+        <h2 role="alert">
+            {% blocktrans trimmed count counter=images.paginator.count %}
+                There is {{ counter }} match
+            {% plural %}
+                There are {{ counter }} matches
+            {% endblocktrans %}
+        </h2>
+    {% else %}
+        <h2>{% trans "Latest images" %}</h2>
+    {% endif %}
+
+    <ul class="listing horiz images chooser">
+        {% for image in images %}
+            <li style="position: relative">
+                <a class="image-choice" title="{% if collections %}{{ image.collection.name }} » {% endif %}{{ image.title }}" href="{% if will_select_format %}{% url 'wagtailimages:chooser_select_format' image.id %}{% else %}{% url 'wagtailimages:image_chosen' image.id %}{% endif %}">
+                    <div class="image">{% image image max-165x165 class="show-transparency" %}</div>
+                    <h3>{{ image.title|ellipsistrim:60 }}</h3>
+                </a>
+                <p class="palette" style="position: absolute; bottom: -8px; right: 12px;">
+                    {% if image.post_images.exists %}<svg style="width: 25px; height: 25px; fill: #217400" class="icon icon-success" aria-hidden="true" focusable="false"><use href="#icon-success"></use></svg>{% endif %}
+                </p>
+            </li>
+        {% endfor %}
+    </ul>
+
+    {% include "wagtailadmin/shared/pagination_nav.html" with items=images linkurl='wagtailimages:chooser_results' %}
+{% endif %}

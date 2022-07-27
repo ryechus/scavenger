@@ -37,7 +37,7 @@ class PostImages(Orderable):
     """Image model that allows ordering images on posts"""
 
     post = ParentalKey(Post, on_delete=models.CASCADE, related_name="post_images")
-    image = models.ForeignKey("wagtailimages.Image", on_delete=models.CASCADE, related_name="+")
+    image = models.ForeignKey("wagtailimages.Image", on_delete=models.CASCADE, related_name="post_images")
     # can be used to display images using base64
     base64_bin = models.BinaryField(null=True)
     # location_data
