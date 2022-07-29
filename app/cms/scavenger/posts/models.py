@@ -19,6 +19,7 @@ class Post(Page):
 
     content_panels = Page.content_panels + [
         InlinePanel("post_images", label="Post images"),
+        FieldPanel("body"),
         FieldPanel("artists", heading="artists"),
         FieldPanel("tags"),
     ]

@@ -12,6 +12,10 @@
 .post {
   padding: 0 20px 20px;
 }
+.post img {
+  width: 100%;
+  height: auto;
+}
 .postTitle {
   margin-bottom: 0;
   text-transform: lowercase;
@@ -64,6 +68,8 @@ hr.post-start {
 .richtext-image {
   display: block;
   margin: 0 auto;
+  width: 100%;
+  height: auto;
 }
 .spotlight {
   height: 450px;

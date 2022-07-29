@@ -24,8 +24,10 @@
             {% for tag in post.tags.all|slice:":3" %}
                 <a href="{% url 'posts:tag' tag.name %}">#{{ tag }}</a>
             {% endfor %}
+            <br>
         </p>
-        <p class="postDate">{{ post.first_published_at|localtime|naturalday }}</p>
+        <div class="postDate">{{ post.first_published_at|localtime|naturalday | lower }}</div>
+        <div class="postDate"><p>by {{ post.owner | lower }}</p></div>
         <hr class="postDivider">
     </div>
 </div>
