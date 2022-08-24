@@ -1,6 +1,7 @@
 import asyncio
 import hashlib
 import urllib.parse
+import uuid
 from itertools import chain
 
 import pendulum
@@ -53,6 +54,10 @@ class Command(BaseCommand):
         image_model = get_image_model()
         for pair in zip(chain(*image_files), ig_media_objects):
             resp, m = pair
+            post = Post.objects.filter(uuid=uuid.uuid5(uuid.NAMESPACE_URL, m["permalink"])).first()
+            if post:
+                continue
+
             content = resp.content
             split_url = urllib.parse.urlparse(m["media_url"]).path.split("/")
             title = split_url[-1].rsplit(".")[0]
@@ -75,7 +80,13 @@ class Command(BaseCommand):
             if title.strip():
                 if not slugify(title):
                     title += "| placeholder"
-                post = Post(title=title, first_published_at=pendulum.parse(m["timestamp"]), live=False)
+
+                post = Post(
+                    title=title,
+                    first_published_at=pendulum.parse(m["timestamp"]),
+                    uuid=uuid.uuid5(uuid.NAMESPACE_URL, m["permalink"]),
+                    live=False,
+                )
                 artists = []
                 for artist in caption_data["artists"]:
                     artist_tag = ArtistTag.objects.get_or_create(instagram_username=artist)[0]
@@ -132,6 +143,7 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument("--ig-account-id", type=int)
         parser.add_argument("--site", type=str)
+        parser.add_argument("--lookback", type=int)
 
     def handle(self, *args, **options):
         # get ig account by account id
@@ -140,8 +152,10 @@ class Command(BaseCommand):
 
         selected_site = self.select_site(site_id=options.get("site_id"))
         root_page = selected_site.root_page
+
+        since = int(pendulum.now("UTC").subtract(seconds=options.get("lookback", 30)).timestamp())
         # # get all instagram media
-        media = get_media(ig_account.account_id, ig_account.access_token)["data"][::-1]
+        media = get_media(ig_account.account_id, ig_account.access_token, since=since)["data"][::-1]
         print(f"importing {len(media)} instagram posts")
 
         downloaded_media = asyncio.run(self._handle(media, chunk_size=5))

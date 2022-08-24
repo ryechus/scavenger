@@ -17,6 +17,7 @@ class Post(Page):
         through="artists.PostArtist", blank=True, verbose_name="artist", related_name="artist_posts"
     )
     tags = ClusterTaggableManager(through="artists.PostTag", blank=True)
+    uuid = models.UUIDField(null=True, unique=True)
 
     content_panels = Page.content_panels + [
         InlinePanel("post_images", label="Post images"),
