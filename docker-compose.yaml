@@ -7,7 +7,7 @@ services:
       dockerfile: Minimal.Dockerfile
       args:
         requirements: requirements.in requirements-dev.in requirements-prod.in
-        docker_image_tag: base-2b974a3
+        docker_image_tag: base-bd1db91
     command:
       - ./manage.py
       - runserver
