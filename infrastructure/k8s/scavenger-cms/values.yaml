@@ -126,6 +126,11 @@ cms:
       secretKeyRef:
         name: django-field-encryption-key
         key: FIELD_ENCRYPTION_KEY
+  - name: GRAPH_API_APP_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: scavenger-graph-api
+        key: GRAPH_API_APP_SECRET
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

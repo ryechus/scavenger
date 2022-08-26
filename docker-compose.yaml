@@ -7,7 +7,7 @@ services:
       dockerfile: Minimal.Dockerfile
       args:
         requirements: requirements.in requirements-dev.in requirements-prod.in
-        docker_image_tag: base-0524154
+        docker_image_tag: base-aab2601
     command:
       - gunicorn
       - -w
