@@ -1,0 +1,4 @@
+controller:
+  customerPorts:
+    - name: SSH
+      containerPort: 22
