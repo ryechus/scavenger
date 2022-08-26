@@ -5,3 +5,5 @@ sentry-sdk
 django-storages
 boto3
 jsonformatter
+pendulum
+instagram-sync[django]==0.1.4

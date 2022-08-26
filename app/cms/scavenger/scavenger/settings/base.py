@@ -36,6 +36,8 @@ INSTALLED_APPS = [
     "wagtail.admin",
     "wagtail.core",
     "wagtail.contrib.modeladmin",
+    "wagtail.api.v2",
+    "rest_framework",
     "modelcluster",
     "taggit",
     "django.contrib.admin",
@@ -50,6 +52,8 @@ INSTALLED_APPS = [
     "search",
     "links",
     "posts",
+    "images",
+    "instagram_sync.contrib.django",
 ]
 
 MIDDLEWARE = [
@@ -103,7 +107,7 @@ WSGI_APPLICATION = "scavenger.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        "NAME": os.path.join(BASE_DIR, "db-richpost.sqlite3"),
     }
 }
 

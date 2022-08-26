@@ -13,13 +13,14 @@ logger = logging.getLogger("")
 
 
 class Post(Page):
-    body = RichTextField(blank=True)  # this field is being removed
-    artists = ClusterTaggableManager(through="artists.Artist", blank=True, verbose_name="artist")
+    artists = ClusterTaggableManager(
+        through="artists.PostArtist", blank=True, verbose_name="artist", related_name="artist_posts"
+    )
     tags = ClusterTaggableManager(through="artists.PostTag", blank=True)
+    uuid = models.UUIDField(null=True, unique=True)
 
     content_panels = Page.content_panels + [
         InlinePanel("post_images", label="Post images"),
-        FieldPanel("body"),
         FieldPanel("artists", heading="artists"),
         FieldPanel("tags"),
     ]
@@ -34,6 +35,14 @@ class Post(Page):
         return self.post_images
 
 
+class RichPost(Post):
+    body = RichTextField(blank=True)  # this field is being removed
+
+    content_panels = Post.content_panels + [
+        FieldPanel("body"),
+    ]
+
+
 class PostImages(Orderable):
     """Image model that allows ordering images on posts"""
 
@@ -44,14 +53,7 @@ class PostImages(Orderable):
     # location_data
     panels = [ImageChooserPanel("image")]
 
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        # import pdb
-        #
-        # pdb.set_trace()
-        # import base64
-        #
-        # def get_base64_encoded_image(image_path):
+    def save(self, *args, **kwargs):
         logger.info(f"base64 encoding image {self.image}")
         self.base64_bin = base64.b64encode(self.image.file.read())
-        super().save()
-        ...
+        super().save(*args, **kwargs)

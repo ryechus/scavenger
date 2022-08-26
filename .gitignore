@@ -9,3 +9,4 @@ tfplan
 *.code-workspace
 app/services
 infrastructure/k8s/docker-auth.yaml
+/utils/unzipper/
