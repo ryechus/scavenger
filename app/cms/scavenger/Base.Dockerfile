@@ -9,7 +9,7 @@ COPY requirements-*.in ./
 
 COPY requirements.in requirements.in
 
-RUN pip install --upgrade pip-tools==6.5.1
+RUN pip install --upgrade pip-tools
 
 RUN pip-compile ${requirements} --output-file requirements.txt
 
