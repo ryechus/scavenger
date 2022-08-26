@@ -39,12 +39,5 @@ class ArtistTagAdmin(admin.ModelAdmin):
         html = f"<a href='{obj.instagram_href}'>@{obj.instagram_username}</a>"
         return mark_safe(html)
 
-    # inlines = [ArtistAdminDjango]
-
-
-# def get_queryset(self, request):
-#     qs = super().get_queryset(request)
-#     return qs.all().distinct("tag__name").order_by("tag__name")
-
 
 modeladmin_register(ArtistsAdmin)
