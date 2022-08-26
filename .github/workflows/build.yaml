@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - "app/cms/**"
+      - ".github/workflows/build.yaml"
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -43,7 +44,7 @@ jobs:
           file: ./app/cms/scavenger/Minimal.Dockerfile
           push: true
           build-args: |
-            docker_image_tag=base-6ed03ff
+            docker_image_tag=base-0524154
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/scavenger-wagtail:${{ github.sha }}
       - name: Helm Install/Upgrade
         uses: ./.github/actions/helm

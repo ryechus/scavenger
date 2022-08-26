@@ -18,4 +18,4 @@ type: application
 version: 0.1.7
 
 # This is the commit hash of the base docker image used in the app
-appVersion: "6ed03ff"
+appVersion: "0524154"

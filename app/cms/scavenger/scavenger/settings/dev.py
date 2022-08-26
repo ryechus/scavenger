@@ -68,3 +68,5 @@ DATABASES = {
 }
 
 FIELD_ENCRYPTION_KEY = os.environ["FIELD_ENCRYPTION_KEY"]
+
+GRAPH_API_REDIRECT_URI = "https://scavenger.news"
