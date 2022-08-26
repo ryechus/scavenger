@@ -66,3 +66,5 @@ DATABASES = {
         "PORT": os.environ.get("DB_PORT"),
     }
 }
+
+FIELD_ENCRYPTION_KEY = os.environ["FIELD_ENCRYPTION_KEY"]

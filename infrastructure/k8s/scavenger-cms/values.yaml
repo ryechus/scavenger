@@ -121,6 +121,11 @@ cms:
       secretKeyRef:
         name: scavenger-elastic-apm
         key: ELASTIC_APM_SECRET
+  - name: FIELD_ENCRYPTION_KEY
+    valueFrom:
+      secretKeyRef:
+        name: django-field-encryption-key
+        key: FIELD_ENCRYPTION_KEY
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
