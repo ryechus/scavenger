@@ -1,80 +1,49 @@
-import asyncio
 import hashlib
 import urllib.parse
 import uuid
-from itertools import chain
 
 import pendulum
-from artists.models import ArtistTag
 from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand
 from django.utils.text import slugify
 from instagram_sync.contrib.django.models import InstagramAccount
 from instagram_sync.core.graph_api.instagram import get_media, parse_caption
-from PIL import Image as PILImage
-from PIL import UnidentifiedImageError
-from posts.models import Post, PostImages
-from ripcurl.requests import get_content
-from wagtail.core.models import Page, Site
+from instagram_sync.core.media import IGMediaCollection, IGMediaObject
+from wagtail.core.models import Site
 from wagtail.images import get_image_model
+
+from artists.models import ArtistTag
+from posts.models import Post, PostImages
 
 
 class Command(BaseCommand):
     help = "Syncs instagram accounts"
 
-    async def _handle(self, media, chunk_size=30):
-        # get all instagram media
-        results = []
-        if len(media) > chunk_size:
-            print("breaking into chunks")
-            page = 1
-            upper_bound = (len(media) // chunk_size) + 1
-            while page <= upper_bound:
-                print(f"chunk {page}")
-                start_idx = (page - 1) * chunk_size
-                end_idx = (page) * chunk_size
-                page += 1
-                downloaded_media = await asyncio.gather(
-                    *[get_content(d["media_url"]) for d in media[start_idx:end_idx]]
-                )
-                results.append(downloaded_media)
-        else:
-            downloaded_media = await asyncio.gather(*[get_content(d["media_url"]) for d in media])
-
-            results.append(downloaded_media)
-
-        return results
-
     @staticmethod
-    def add_content_from_media(image_files, ig_media_objects, page):
+    def add_content_from_media(media: list[IGMediaObject], page):
         images = []
         post_images = []
 
         # for each media request data
         image_model = get_image_model()
-        for pair in zip(chain(*image_files), ig_media_objects):
-            resp, m = pair
-            post = Post.objects.filter(uuid=uuid.uuid5(uuid.NAMESPACE_URL, m["permalink"])).first()
+        for m in media:
+            # resp, m = pair
+            post = Post.objects.filter(uuid=uuid.uuid5(uuid.NAMESPACE_URL, m.graph.permalink)).first()
             if post:
                 continue
 
-            content = resp.content
-            split_url = urllib.parse.urlparse(m["media_url"]).path.split("/")
+            split_url = urllib.parse.urlparse(m.graph.media_url).path.split("/")
             title = split_url[-1].rsplit(".")[0]
-            content_file = ContentFile(content, name=split_url[-1])
-            try:
-                pil_img = PILImage.open(content_file)
-            except UnidentifiedImageError:
-                print(f"error opening {m['media_url']}")
-                continue
+            content_file = ContentFile(m.bytes, name=split_url[-1])
+
             img = image_model(
                 title=title,
                 file=content_file,
-                width=pil_img.width,
-                height=pil_img.height,
-                file_hash=hashlib.sha1(content).hexdigest(),
+                width=m.width,
+                height=m.height,
+                file_hash=hashlib.sha1(m.bytes).hexdigest(),
             )
-            caption_data = parse_caption(m["caption"])
+            caption_data = parse_caption(m.graph.caption)
 
             title = caption_data["title"]
             if title.strip():
@@ -83,8 +52,8 @@ class Command(BaseCommand):
 
                 post = Post(
                     title=title,
-                    first_published_at=pendulum.parse(m["timestamp"]),
-                    uuid=uuid.uuid5(uuid.NAMESPACE_URL, m["permalink"]),
+                    first_published_at=pendulum.parse(m.graph.timestamp),
+                    uuid=uuid.uuid5(uuid.NAMESPACE_URL, m.graph.permalink),
                     live=False,
                 )
                 artists = []
@@ -156,10 +125,10 @@ class Command(BaseCommand):
         since = int(pendulum.now("UTC").subtract(seconds=options.get("lookback", 30)).timestamp())
         # # get all instagram media
         media = get_media(ig_account.account_id, ig_account.access_token, since=since)["data"][::-1]
-        print(f"importing {len(media)} instagram posts")
+        collection = IGMediaCollection(media)
+        ig_media = collection.collection
+        print(f"importing {len(ig_media)} instagram posts")
 
-        downloaded_media = asyncio.run(self._handle(media, chunk_size=5))
-
-        self.add_content_from_media(downloaded_media, media, root_page)
+        self.add_content_from_media(ig_media, root_page)
 
         print(f"done importing from ig account {ig_account.account_id}")
