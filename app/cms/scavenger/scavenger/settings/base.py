@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "links",
     "posts",
     "images",
+    "instagram_sync.contrib.django",
 ]
 
 MIDDLEWARE = [
