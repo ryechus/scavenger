@@ -7,18 +7,14 @@ services:
       dockerfile: Minimal.Dockerfile
       args:
         requirements: requirements.in requirements-dev.in requirements-prod.in
-        docker_image_tag: base-bd1db91
+        docker_image_tag: base-6ed03ff
     command:
-      - ./manage.py
-      - runserver
-      - 0.0.0.0:8000
-#    command:
-#      - gunicorn
-#      - -w
-#      - "1"
-#      - --bind=0.0.0.0:8000
-#      - scavenger.wsgi
-#      - --reload
+      - gunicorn
+      - -w
+      - "1"
+      - --bind=0.0.0.0:8000
+      - scavenger.wsgi
+      - --reload
     working_dir: /app/scavenger
     environment:
       - DJANGO_SETTINGS_MODULE=scavenger.settings.local
