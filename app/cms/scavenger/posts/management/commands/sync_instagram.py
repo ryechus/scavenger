@@ -36,6 +36,9 @@ class Command(BaseCommand):
             title = split_url[-1].rsplit(".")[0]
             content_file = ContentFile(m.bytes, name=split_url[-1])
 
+            if not m.width or not m.height:
+                continue
+
             img = image_model(
                 title=title,
                 file=content_file,
