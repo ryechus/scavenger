@@ -16,6 +16,7 @@ class ArtistsAdmin(ModelAdmin):
     list_display_links = None
     list_editable = ("name",)
     search_fields = ("name",)
+    ordering = ("name",)
 
     @admin.display
     def posts(self, obj):
