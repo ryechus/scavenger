@@ -114,7 +114,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument("--ig-account-id", type=int)
-        parser.add_argument("--site", type=str)
+        parser.add_argument("--site-id", type=str)
         parser.add_argument("--lookback", type=int)
 
     def handle(self, *args, **options):
