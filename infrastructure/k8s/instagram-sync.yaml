@@ -1,0 +1,78 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: instagram-sync
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: instagram-sync
+            image: ryechus/scavenger-wagtail:80edd0093385f0039642b2b7869984a6cc3c5676
+            command:
+              - ./manage.py
+              - sync_instagram
+              - --ig-account-id
+              - "17841416569199698"
+              - --site
+              - "2"
+              - --lookback
+              - "60"
+            env:
+            - name: DJANGO_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: scavenger-django-secret-key
+                  key: DJANGO_SECRET_KEY
+            - name: DJANGO_SETTINGS_MODULE
+              value: scavenger.settings.dev
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: DB_HOST
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: DB_USER
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: DB_PASSWORD
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: DB_NAME
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: cms-db-connection
+                  key: DB_PORT
+            - name: AWS_S3_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: scavenger-aws-s3-cred
+                  key: AWS_S3_ACCESS_KEY_ID
+            - name: AWS_S3_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: scavenger-aws-s3-cred
+                  key: AWS_S3_SECRET_ACCESS_KEY
+            - name: FIELD_ENCRYPTION_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: django-field-encryption-key
+                  key: FIELD_ENCRYPTION_KEY
+            - name: GRAPH_API_APP_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: scavenger-graph-api
+                  key: GRAPH_API_APP_SECRET
+            - name: env
+              value: dev
+          restartPolicy: OnFailure
