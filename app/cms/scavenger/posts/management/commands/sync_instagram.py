@@ -3,49 +3,60 @@ import urllib.parse
 import uuid
 
 import pendulum
+from artists.models import ArtistTag
 from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand
 from django.utils.text import slugify
 from instagram_sync.contrib.django.models import InstagramAccount
 from instagram_sync.core.graph_api.instagram import get_media, parse_caption
 from instagram_sync.core.media import IGMediaCollection, IGMediaObject
+from posts.models import Post, PostImages
 from wagtail.core.models import Site
 from wagtail.images import get_image_model
 
-from artists.models import ArtistTag
-from posts.models import Post, PostImages
+image_model = get_image_model()
 
 
 class Command(BaseCommand):
     help = "Syncs instagram accounts"
 
     @staticmethod
-    def add_content_from_media(media: list[IGMediaObject], page):
+    def construct_img_model(ig_media_obj: IGMediaObject):
+        if not ig_media_obj.width or not ig_media_obj.height:
+            return
+
+        split_url = urllib.parse.urlparse(ig_media_obj.graph.media_url).path.split("/")
+        title = split_url[-1].rsplit(".")[0]
+        content_file = ContentFile(ig_media_obj.bytes, name=split_url[-1])
+
+        img = image_model(
+            title=title,
+            file=content_file,
+            width=ig_media_obj.width,
+            height=ig_media_obj.height,
+            file_hash=hashlib.sha1(ig_media_obj.bytes).hexdigest(),
+        )
+
+        return img
+
+    @classmethod
+    def add_content_from_media(cls, media: list[list[IGMediaObject]], page):
         images = []
         post_images = []
 
         # for each media request data
-        image_model = get_image_model()
         for m in media:
-            # resp, m = pair
-            post = Post.objects.filter(uuid=uuid.uuid5(uuid.NAMESPACE_URL, m.graph.permalink)).first()
-            if post:
+            rest = m[1:]
+            m = m[0]
+            post = Post.objects.filter(
+                uuid=uuid.uuid5(uuid.NAMESPACE_URL, m.graph.permalink)
+            ).first()
+
+            img = cls.construct_img_model(m)
+            if post or not img:
                 continue
 
-            split_url = urllib.parse.urlparse(m.graph.media_url).path.split("/")
-            title = split_url[-1].rsplit(".")[0]
-            content_file = ContentFile(m.bytes, name=split_url[-1])
-
-            if not m.width or not m.height:
-                continue
-
-            img = image_model(
-                title=title,
-                file=content_file,
-                width=m.width,
-                height=m.height,
-                file_hash=hashlib.sha1(m.bytes).hexdigest(),
-            )
+            img.save()
             caption_data = parse_caption(m.graph.caption)
 
             title = caption_data["title"]
@@ -61,7 +72,9 @@ class Command(BaseCommand):
                 )
                 artists = []
                 for artist in caption_data["artists"]:
-                    artist_tag = ArtistTag.objects.get_or_create(instagram_username=artist)[0]
+                    artist_tag = ArtistTag.objects.get_or_create(
+                        instagram_username=artist
+                    )[0]
                     if not artist_tag.name:
                         artist_tag.name = artist
                         artist_tag.save()
@@ -81,7 +94,14 @@ class Command(BaseCommand):
 
             images.append(img)
 
-        image_model.objects.bulk_create(images)
+            for r in rest:
+                child_img = cls.construct_img_model(r)
+                if not child_img:
+                    continue
+                child_img.save()
+
+                post_images.append(PostImages(post=post, image=child_img))
+
         PostImages.objects.bulk_create(post_images)
 
     @staticmethod
@@ -94,7 +114,9 @@ class Command(BaseCommand):
             print(f"{idx}: {site.account_id}")
 
         selected_acct = input("Select an instagram account to sync?")
-        selected_acct = accounts[int(selected_acct)] if selected_acct else accounts.first()
+        selected_acct = (
+            accounts[int(selected_acct)] if selected_acct else accounts.first()
+        )
 
         return selected_acct
 
@@ -125,9 +147,15 @@ class Command(BaseCommand):
         selected_site = self.select_site(site_id=options.get("site_id"))
         root_page = selected_site.root_page
 
-        since = int(pendulum.now("UTC").subtract(seconds=options.get("lookback", 30)).timestamp())
+        since = int(
+            pendulum.now("UTC")
+            .subtract(seconds=options.get("lookback", 30))
+            .timestamp()
+        )
         # # get all instagram media
-        media = get_media(ig_account.account_id, ig_account.access_token, since=since)["data"][::-1]
+        media = get_media(ig_account.account_id, ig_account.access_token, since=since)[
+            "data"
+        ][::-1]
         collection = IGMediaCollection(media)
         ig_media = collection.collection
         print(f"importing {len(ig_media)} instagram posts")
