@@ -19,13 +19,17 @@ class HomePage(Page):
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         renditions_queryset = (
-            get_image_model().get_rendition_model().objects.filter(filter_spec__in=["fill-640x640"])
+            get_image_model()
+            .get_rendition_model()
+            .objects.filter(filter_spec__in=["fill-640x640"])
         )
         posts = (
             Post.objects.child_of(self)
             .live()
             .filter(spotlight_parent__isnull=True)
-            .prefetch_related(Prefetch("post_images__image__renditions", queryset=renditions_queryset))
+            .prefetch_related(
+                Prefetch("post_images__image__renditions", queryset=renditions_queryset)
+            )
             .prefetch_related(Prefetch("tags"))
             .prefetch_related(Prefetch("artists"))
             .order_by("-first_published_at")

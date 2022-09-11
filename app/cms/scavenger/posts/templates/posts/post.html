@@ -1,8 +1,15 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags wagtailvideos_tags %}
 
 {% block content %}
 <div class="container">
     {% include "posts/post_markup.html" %}
+    <div>
+        {% for p_img in post.post_images.all %}
+            {% if p_img.video %}
+                {% video p_img.video autoplay=autoplay muted loop width=640 %}
+            {% endif %}
+        {% endfor %}
+    </div>
 </div>
 {% endblock content %}

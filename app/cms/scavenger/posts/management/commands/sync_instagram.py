@@ -1,6 +1,9 @@
 import hashlib
+import logging
 import urllib.parse
 import uuid
+from collections import namedtuple
+from os.path import splitext
 
 import pendulum
 from artists.models import ArtistTag
@@ -13,31 +16,50 @@ from instagram_sync.core.media import IGMediaCollection, IGMediaObject
 from posts.models import Post, PostImages
 from wagtail.core.models import Site
 from wagtail.images import get_image_model
+from wagtailvideos import get_video_model
 
 image_model = get_image_model()
+video_model = get_video_model()
+
+logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
     help = "Syncs instagram accounts"
 
     @staticmethod
-    def construct_img_model(ig_media_obj: IGMediaObject):
-        if not ig_media_obj.width or not ig_media_obj.height:
-            return
-
-        split_url = urllib.parse.urlparse(ig_media_obj.graph.media_url).path.split("/")
+    def get_content_file(ig_media_obj: IGMediaObject):
+        parsed_url = urllib.parse.urlparse(ig_media_obj.graph.media_url)
+        split_url = parsed_url.path.split("/")
         title = split_url[-1].rsplit(".")[0]
         content_file = ContentFile(ig_media_obj.bytes, name=split_url[-1])
+        is_video = splitext(parsed_url.path)[1][1:] in ("mp4", "mov", "MP4", "MOV")
 
-        img = image_model(
-            title=title,
-            file=content_file,
-            width=ig_media_obj.width,
-            height=ig_media_obj.height,
-            file_hash=hashlib.sha1(ig_media_obj.bytes).hexdigest(),
+        ig_content_file = namedtuple(
+            "IGContentFile", ["title", "content_file", "is_video"]
         )
+        return ig_content_file(title, content_file, is_video)
 
-        return img
+    @classmethod
+    def construct_media_object(cls, ig_media_obj: IGMediaObject):
+        title, content_file, is_video = cls.get_content_file(ig_media_obj)
+
+        if is_video:
+            # this is a video
+            logger.info("Found a video; making video instance")
+
+            media = video_model(title=title, file=content_file)
+        else:
+            media = image_model(
+                title=title,
+                file=content_file,
+                width=ig_media_obj.width,
+                height=ig_media_obj.height,
+                file_hash=hashlib.sha1(ig_media_obj.bytes).hexdigest(),
+            )
+
+        media.save()
+        return media, is_video
 
     @classmethod
     def add_content_from_media(cls, media: list[list[IGMediaObject]], page):
@@ -52,11 +74,10 @@ class Command(BaseCommand):
                 uuid=uuid.uuid5(uuid.NAMESPACE_URL, m.graph.permalink)
             ).first()
 
-            img = cls.construct_img_model(m)
+            img, is_video = cls.construct_media_object(m)
             if post or not img:
                 continue
 
-            img.save()
             caption_data = parse_caption(m.graph.caption)
 
             title = caption_data["title"]
@@ -87,7 +108,13 @@ class Command(BaseCommand):
 
                 post.save_revision().publish()
 
-                post_image = PostImages(post=post, image=img)
+                kwargs_dict = {
+                    "post": post,
+                    "image": img if not is_video else None,
+                    "video": img if is_video else None,
+                }
+
+                post_image = PostImages(**kwargs_dict)
                 post_images.append(post_image)
 
                 post.unpublish()
@@ -95,12 +122,17 @@ class Command(BaseCommand):
             images.append(img)
 
             for r in rest:
-                child_img = cls.construct_img_model(r)
+                child_img, is_video = cls.construct_media_object(r)
                 if not child_img:
                     continue
-                child_img.save()
 
-                post_images.append(PostImages(post=post, image=child_img))
+                kwargs_dict = {
+                    "post": post,
+                    "image": child_img if not is_video else None,
+                    "video": child_img if is_video else None,
+                }
+
+                post_images.append(PostImages(**kwargs_dict))
 
         PostImages.objects.bulk_create(post_images)
 

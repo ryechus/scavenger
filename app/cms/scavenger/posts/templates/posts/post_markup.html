@@ -1,10 +1,10 @@
 {% load static wagtailcore_tags wagtailimages_tags tz humanize %}
 <div class="row no-gutters">
     <div class="post col-xs-12 col-md-6 offset-md-3">
-        {% for p_img in post.post_images.all|slice:":1" %}
-            {% image p_img.image fill-640x640 as p_img %}
+        {% for p_img in post.post_images.all %}
+            {% image p_img.image fill-640x640 as p_img_tmb %}
             <a href="{% pageurl post %}">
-                <img class="postImage" src="{{ p_img.url }}" alt="">
+                <img class="postImage" src="{{ p_img_tmb.url }}" alt="">
             </a>
         {% endfor %}
         <a href="{% pageurl post %}">
