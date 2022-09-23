@@ -28,12 +28,14 @@ class PostImages(Orderable):
         on_delete=models.PROTECT,
         related_name="post_images",
         null=True,
+        blank=True,
     )
     video = models.ForeignKey(
         "wagtailvideos.Video",
         on_delete=models.PROTECT,
         related_name="video_posts",
         null=True,
+        blank=True,
     )
     # can be used to display images using base64
     base64_bin = models.BinaryField(null=True)
@@ -96,9 +98,6 @@ class Post(Page):
 
     @property
     def image_urls(self):
-        import pdb
-
-        pdb.set_trace()
         return self.post_images.all()
 
 

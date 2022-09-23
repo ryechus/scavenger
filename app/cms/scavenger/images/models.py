@@ -1,12 +1,18 @@
+import logging
+
+from django.conf import settings
 from django.db import models
+from wagtail.images.models import (AbstractImage, AbstractRendition, Filter,
+                                   Image, Rendition)
+
 from scavenger.storage import ImageServiceStorage
-from wagtail.images.models import (AbstractImage, AbstractRendition, Image,
-                                   Rendition)
+
+logger = logging.getLogger(__name__)
 
 
 class ImageServiceImageModel(AbstractImage):
     file = models.ImageField(
-        upload_to="",
+        upload_to="images/",
         width_field="width",
         height_field="height",
         storage=ImageServiceStorage,
@@ -18,6 +24,21 @@ class ImageServiceImageModel(AbstractImage):
         managed = False
         db_table = Image.objects.model._meta.db_table
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        renditions = [
+            "max-165x165",  # thumbnail gallery in admin
+            "fill-640x640",  # main size for home page
+            "max-800x600",  # size for image detail page
+        ]
+
+        for rendition in renditions:
+            self.get_rendition(rendition)
+
+    @property
+    def url(self):
+        return self.file.url
+
     def get_rendition(self, filter):
         """
         Returns a ``Rendition`` instance with a ``file`` field value (an
@@ -26,15 +47,56 @@ class ImageServiceImageModel(AbstractImage):
         Note: If using custom image models, an instance of the custom rendition
         model will be returned.
         """
-        if self.renditions.last() is not None:
-            print("has renditions")
+        if isinstance(filter, str):
+            filter = Filter(spec=filter)
 
-            return self.renditions.last()
+        cache_key = filter.get_cache_key(self)
+        Rendition = self.get_rendition_model()
 
-        return Rendition.objects.last()
+        try:
+            rendition = self.renditions.get(
+                filter_spec=filter.spec,
+                focal_point_key=cache_key,
+            )
+        except Rendition.DoesNotExist:
+            # Generate the rendition image
+            # make GET request to image service
+            width = self.width
+            height = self.height
+            spec = filter.spec.split("-")
+            file_url = self.file.name
+            if len(spec) == 2:
+                width, height = spec[1].split("x")
+                file_url += f"?width={width}&height={height}"
+
+            response = self.file.storage.get_url(file_url)
+            if str(response.status_code).startswith("4"):
+                logger.warning("404 when getting thumbnail")
+                return self.renditions.model.objects.last()
+
+            rendition = self.renditions.model(
+                width=width,
+                height=height,
+                image=self,
+                filter_spec=filter.spec,
+                focal_point_key=cache_key,
+            )
+
+            rendition.file.name = response.json().replace(
+                f"{settings.IMAGE_SERVICE_CDN}/", ""
+            )
+            rendition.save()
+
+        return rendition
 
 
 class CustomRendition(AbstractRendition):
+    file = models.ImageField(
+        upload_to="",
+        width_field="width",
+        height_field="height",
+        storage=ImageServiceStorage,
+    )
     image = models.ForeignKey(
         ImageServiceImageModel, on_delete=models.CASCADE, related_name="renditions"
     )

@@ -72,3 +72,5 @@ FIELD_ENCRYPTION_KEY = os.environ["FIELD_ENCRYPTION_KEY"]
 GRAPH_API_REDIRECT_URI = "https://scavenger.news"
 
 GRAPH_API_APP_ID = 445208100863812
+
+IMAGE_SERVICE_HOST = "https://images.scavenger.news"

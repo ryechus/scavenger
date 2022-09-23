@@ -1,4 +1,5 @@
 import requests
+from django.conf import settings
 from django.contrib.staticfiles.storage import ManifestFilesMixin
 from django.core.files.base import ContentFile
 from django.core.files.storage import Storage
@@ -30,15 +31,17 @@ class ImageServiceStorage(Storage):
 
     def _save(self, name, content):
         response = requests.post(
-            "https://images.scavenger.news/upload/",
+            f"{settings.IMAGE_SERVICE_HOST}/upload/",
             files={"file": content},
             data={"key": name},
         )
         print(vars(response))
-        return name
+        return response.json()["key"]
 
-    def delete(self, *args, **kwargs):
-        ...
+    def delete(self, name):
+        requests.delete(f"{settings.IMAGE_SERVICE_HOST}/image/{name}")
+
+        return True
 
     def exists(self, *args, **kwargs):
         ...
@@ -49,5 +52,8 @@ class ImageServiceStorage(Storage):
     def size(self, *args, **kwargs):
         ...
 
+    def get_url(self, name):
+        return requests.get(f"{settings.IMAGE_SERVICE_HOST}/image/{name}")
+
     def url(self, name):
-        return requests.get(f"https://images.scavenger.news/image/{name}")
+        return f"{settings.IMAGE_SERVICE_CDN}/{name}"
