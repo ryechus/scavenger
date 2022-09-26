@@ -1,3 +1,5 @@
+import logging
+
 import requests
 from django.conf import settings
 from django.contrib.staticfiles.storage import ManifestFilesMixin
@@ -5,6 +7,9 @@ from django.core.files.base import ContentFile
 from django.core.files.storage import Storage
 from django.utils.deconstruct import deconstructible
 from storages.backends.s3boto3 import S3Boto3Storage
+from wagtail.images import get_image_model
+
+logger = logging.getLogger(__name__)
 
 
 class StaticRootS3BotoStorage(ManifestFilesMixin, S3Boto3Storage):  # noqa
@@ -33,9 +38,9 @@ class ImageServiceStorage(Storage):
         response = requests.post(
             f"{settings.IMAGE_SERVICE_HOST}/upload/",
             files={"file": content},
-            data={"key": name},
+            data={"prefix": get_image_model().file.field.upload_to},
         )
-        print(vars(response))
+        logger.info(response)
         return response.json()["key"]
 
     def delete(self, name):

@@ -18,3 +18,5 @@ DATABASES = {
         "HOST": os.environ.get("DB_HOST"),
     }
 }
+
+ENVIRONMENT_NAME = "prod"

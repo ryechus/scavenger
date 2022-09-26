@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 class ImageServiceImageModel(AbstractImage):
     file = models.ImageField(
-        upload_to="images/",
+        upload_to=f"{settings.ENVIRONMENT_NAME}/",
         width_field="width",
         height_field="height",
         storage=ImageServiceStorage,
@@ -92,7 +92,7 @@ class ImageServiceImageModel(AbstractImage):
 
 class CustomRendition(AbstractRendition):
     file = models.ImageField(
-        upload_to="",
+        upload_to="images/",
         width_field="width",
         height_field="height",
         storage=ImageServiceStorage,

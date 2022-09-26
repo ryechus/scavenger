@@ -198,3 +198,5 @@ WAGTAILIMAGES_IMAGE_MODEL = "images.ImageServiceImageModel"
 IMAGE_SERVICE_HOST = "http://localhost:8181"
 
 IMAGE_SERVICE_CDN = "https://images.cdn.scavenger.news"
+
+ENVIRONMENT_NAME = "local"

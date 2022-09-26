@@ -15,6 +15,8 @@ ALLOWED_HOSTS = ["*"]
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
+ENVIRONMENT_NAME = "dev"
+
 # INSTALLED_APPS += ["elasticapm.contrib.django"]
 
 # ELASTIC_APM = {
