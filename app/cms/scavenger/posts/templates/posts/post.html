@@ -2,28 +2,8 @@
 {% load wagtailcore_tags wagtailvideos_tags wagtailimages_tags %}
 
 {% block extra_meta %}
-{% image post.post_images.first.image_new fill-640x640 as p_img_tmb %}
-<meta property="og:site_name" content="scavenger.news">
-<meta property="og:url" content="https://scavenger.news{% pageurl post %}" data-dynamic="true">
-<meta property="og:type" content="article" data-dynamic="true">
-<meta name="title"
-      content="{% if post.seo_title %}{{ post.seo_title }}{% else %}{{ post.title }}{% endif %}"
-      data-dynamic="true">
-<meta name="og:title"
-      content="{% if post.seo_title %}{{ post.seo_title }}{% else %}{{ post.title }}{% endif %}"
-      data-dynamic="true">
+{% image post.post_images.first.image_new fill-800x800 as p_img_tmb %}
 <meta name="og:image" content="{{ p_img_tmb.url }}" data-dynamic="true"/>
-<meta name="og:image:height" content="{{ p_img_tmb.height }}" data-dynamic="true"/>
-<meta name="og:image:width" content="{{ p_img_tmb.width }}" data-dynamic="true"/>
-
-<meta property="twitter:card" content="player" data-dynamic="true">
-<meta property="twitter:player" content="https://scavenger.news{% pageurl post %}" data-dynamic="true">
-<meta property="twitter:player:width" content="{{ p_img_tmb.width }}" data-dynamic="true">
-<meta property="twitter:player:height" content="{{ p_img_tmb.height }}" data-dynamic="true">
-<meta property="twitter:title"
-      content="{% if post.seo_title %}{{ post.seo_title }}{% else %}{{ post.title }}{% endif %}"
-      data-dynamic="true">
-<meta property="twitter:image" content="https://live.staticflickr.com/65535/52293526331_cfe013f3d4_b.jpg" data-dynamic="true">
 {% endblock %}
 
 {% block content %}
