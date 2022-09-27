@@ -3,7 +3,9 @@
 
 {% block extra_meta %}
 {% image post.post_images.first.image_new fill-640x640 as p_img_tmb %}
-<meta name="og:image" content="{{ p_img_tmb.url }}" />
+<meta name="og:image" content="{{ p_img_tmb.url }}" data-dynamic="true"/>
+<meta name="og:image:height" content="{{ p_img_tmb.height }}" />
+<meta name="og:image:width" content="{{ p_img_tmb.width }}" />
 {% endblock %}
 
 {% block content %}
