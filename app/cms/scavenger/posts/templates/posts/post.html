@@ -3,9 +3,17 @@
 
 {% block extra_meta %}
 {% image post.post_images.first.image_new fill-640x640 as p_img_tmb %}
+<meta property="og:url" content="{% pageurl post %}" data-dynamic="true">
+<meta property="og:type" content="article" data-dynamic="true">
+<meta name="title"
+      content="{% if post.seo_title %}{{ post.seo_title }}{% else %}{{ post.title }}{% endif %}"
+      data-dynamic="true">
+<meta name="og:title"
+      content="{% if post.seo_title %}{{ post.seo_title }}{% else %}{{ post.title }}{% endif %}"
+      data-dynamic="true">
 <meta name="og:image" content="{{ p_img_tmb.url }}" data-dynamic="true"/>
-<meta name="og:image:height" content="{{ p_img_tmb.height }}" />
-<meta name="og:image:width" content="{{ p_img_tmb.width }}" />
+<meta name="og:image:height" content="{{ p_img_tmb.height }}" data-dynamic="true"/>
+<meta name="og:image:width" content="{{ p_img_tmb.width }}" data-dynamic="true"/>
 {% endblock %}
 
 {% block content %}
