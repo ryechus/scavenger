@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "posts",
     "images",
     "instagram_sync.contrib.django",
+    "wagtailvideos",
 ]
 
 MIDDLEWARE = [
