@@ -8,6 +8,7 @@ from wagtail.core import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
 from . import views
+from .api import api_router
 
 urlpatterns = [
     path("health/", views.health_check),
@@ -16,6 +17,7 @@ urlpatterns = [
     path("admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
     path("search/", search_views.search, name="search"),
+    path("api/v2/", api_router.urls),
 ]
 
 

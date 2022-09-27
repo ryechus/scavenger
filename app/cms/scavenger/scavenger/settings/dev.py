@@ -15,6 +15,8 @@ ALLOWED_HOSTS = ["*"]
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
+ENVIRONMENT_NAME = "dev"
+
 # INSTALLED_APPS += ["elasticapm.contrib.django"]
 
 # ELASTIC_APM = {
@@ -72,3 +74,5 @@ FIELD_ENCRYPTION_KEY = os.environ["FIELD_ENCRYPTION_KEY"]
 GRAPH_API_REDIRECT_URI = "https://scavenger.news"
 
 GRAPH_API_APP_ID = 445208100863812
+
+IMAGE_SERVICE_HOST = "http://scavenger-images"

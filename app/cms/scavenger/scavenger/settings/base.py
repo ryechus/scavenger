@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "posts",
     "images",
     "instagram_sync.contrib.django",
+    "wagtailvideos",
 ]
 
 MIDDLEWARE = [
@@ -190,3 +191,13 @@ SECRET_KEY = "changeme"
 GRAPH_API_APP_ID = 418459443679300
 
 GRAPH_API_APP_SECRET = os.environ.get("GRAPH_API_APP_SECRET")
+
+SILENCED_SYSTEM_CHECKS = ["models.W042"]
+
+WAGTAILIMAGES_IMAGE_MODEL = "images.ImageServiceImageModel"
+
+IMAGE_SERVICE_HOST = "http://localhost:8181"
+
+IMAGE_SERVICE_CDN = "https://images.cdn.scavenger.news"
+
+ENVIRONMENT_NAME = "local"

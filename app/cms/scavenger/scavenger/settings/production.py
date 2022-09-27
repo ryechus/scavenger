@@ -1,9 +1,9 @@
 import os  # noqa
 
 from .base import *  # noqa
-from .storage_s3 import *  # noqa
-from .sentry import *  # noqa
 from .hosts import *  # noqa
+from .sentry import *  # noqa
+from .storage_s3 import *  # noqa
 
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 
@@ -18,3 +18,5 @@ DATABASES = {
         "HOST": os.environ.get("DB_HOST"),
     }
 }
+
+ENVIRONMENT_NAME = "prod"

@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scavenger-images-deployment-2
+  labels:
+    app: scavenger-images
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: scavenger-images
+  template:
+    metadata:
+      labels:
+        app: scavenger-images
+    spec:
+      imagePullSecrets:
+        - name: docker.io.auth
+      containers:
+      - name: scavenger-images-api
+        command:
+          - uvicorn
+          - image_service.main:app
+          - --host
+          - 0.0.0.0
+          - --port
+          - "8000"
+        image: ryechus/scavenger-images:0.6
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+        env:
+          - name: S3_BUCKET_NAME
+            value: images.cdn.scavenger.news
+          - name: AWS_DEFAULT_REGION
+            value: us-west-1
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: scavenger-aws-s3-cred
+                key: AWS_S3_ACCESS_KEY_ID
+          - name: AWS_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: scavenger-aws-s3-cred
+                key: AWS_S3_SECRET_ACCESS_KEY
+          - name: REDIS_HOST_NAME
+            value: scavenger-redis-master
+          - name: REDIS_HOST_PORT
+            value: "6379"
