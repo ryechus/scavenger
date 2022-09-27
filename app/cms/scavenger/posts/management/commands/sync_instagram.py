@@ -112,7 +112,7 @@ class Command(BaseCommand):
 
                 kwargs_dict = {
                     "post": post,
-                    "image": img if not is_video else None,
+                    "image_new": img if not is_video else None,
                     "video": img if is_video else None,
                 }
 
@@ -130,7 +130,7 @@ class Command(BaseCommand):
 
                 kwargs_dict = {
                     "post": post,
-                    "image": child_img if not is_video else None,
+                    "image_new": child_img if not is_video else None,
                     "video": child_img if is_video else None,
                 }
 
