@@ -75,4 +75,4 @@ GRAPH_API_REDIRECT_URI = "https://scavenger.news"
 
 GRAPH_API_APP_ID = 445208100863812
 
-IMAGE_SERVICE_HOST = "http://scavenger-images"
+IMAGE_SERVICE_HOST = "http://scavenger-images:8000"
