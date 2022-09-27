@@ -73,9 +73,11 @@ class Command(BaseCommand):
             post = Post.objects.filter(
                 uuid=uuid.uuid5(uuid.NAMESPACE_URL, m.graph.permalink)
             ).first()
+            if post:
+                continue
 
             img, is_video = cls.construct_media_object(m)
-            if post or not img:
+            if not img:
                 continue
 
             caption_data = parse_caption(m.graph.caption)
