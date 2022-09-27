@@ -7,7 +7,6 @@ from django.core.files.base import ContentFile
 from django.core.files.storage import Storage
 from django.utils.deconstruct import deconstructible
 from storages.backends.s3boto3 import S3Boto3Storage
-from wagtail.images import get_image_model
 
 logger = logging.getLogger(__name__)
 
@@ -34,13 +33,15 @@ class ImageServiceStorage(Storage):
     def _open(self, *args, **kwargs):
         return ContentFile(b"", name="this.jpeg")
 
-    def _save(self, name, content):
+    @staticmethod
+    def _save(name, content):
         response = requests.post(
             f"{settings.IMAGE_SERVICE_HOST}/upload/",
             files={"file": content},
-            data={"prefix": get_image_model().file.field.upload_to},
+            data={"prefix": settings.ENVIRONMENT_NAME},
         )
         logger.info(response)
+
         return response.json()["key"]
 
     def delete(self, name):

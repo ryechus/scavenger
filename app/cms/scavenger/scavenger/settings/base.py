@@ -193,7 +193,7 @@ GRAPH_API_APP_SECRET = os.environ.get("GRAPH_API_APP_SECRET")
 
 SILENCED_SYSTEM_CHECKS = ["models.W042"]
 
-WAGTAILIMAGES_IMAGE_MODEL = "images.ImageServiceImageModel"
+# WAGTAILIMAGES_IMAGE_MODEL = "images.ImageServiceImageModel"
 
 IMAGE_SERVICE_HOST = "http://localhost:8181"
 

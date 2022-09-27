@@ -30,6 +30,13 @@ class PostImages(Orderable):
         null=True,
         blank=True,
     )
+    image_new = models.ForeignKey(
+        "images.ImageServiceImageModel",
+        on_delete=models.PROTECT,
+        related_name="post_images_new",
+        null=True,
+        blank=True,
+    )
     video = models.ForeignKey(
         "wagtailvideos.Video",
         on_delete=models.PROTECT,
