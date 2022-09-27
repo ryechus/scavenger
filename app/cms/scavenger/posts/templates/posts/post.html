@@ -3,7 +3,14 @@
 
 {% block extra_meta %}
 {% image post.post_images.first.image_new fill-800x800 as p_img_tmb %}
-<meta name="og:image" content="{{ p_img_tmb.url }}" data-dynamic="true"/>
+<meta name="og:title"
+      content="{% if post.seo_title %}{{ post.seo_title }}{% else %}{{ post.title }}{% endif %}">
+<meta property="og:type" content="article" >
+<meta name="og:image" content="{{ p_img_tmb.url }}" />
+<meta property="og:url" content="https://scavenger.news{% pageurl post %}" >
+<meta name="twitter:card" content="summary_large_image">
+
+<meta property="og:site_name" content="scavenger.news">
 {% endblock %}
 
 {% block content %}
