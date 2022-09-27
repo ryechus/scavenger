@@ -4,7 +4,7 @@
         {% for p_img in post.post_images.all %}
             {% image p_img.image_new fill-640x640 as p_img_tmb %}
             <a href="{% pageurl post %}">
-                <img class="postImage" src="{{ p_img_tmb.url }}" alt="">
+                <img class="postImage" loading="lazy" src="{{ p_img_tmb.url }}" alt="">
             </a>
         {% endfor %}
         <a href="{% pageurl post %}">
