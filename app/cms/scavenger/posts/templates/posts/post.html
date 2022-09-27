@@ -2,7 +2,7 @@
 {% load wagtailcore_tags wagtailvideos_tags wagtailimages_tags %}
 
 {% block extra_meta %}
-{% image post.post_images.first.image_new fill-800x800 as p_img_tmb %}
+{% image post.post_images.first.image_new fill-640x640 as p_img_tmb %}
 <meta name="og:image" content="{{ p_img_tmb.url }}" data-dynamic="true"/>
 {% endblock %}
 
