@@ -31,7 +31,7 @@
                     </figure>
                 </a>
                 <p class="palette" style="position: absolute; bottom: -8px; right: 12px;">
-                    {% if image.post_images.exists %}<svg style="width: 25px; height: 25px; fill: #217400" class="icon icon-success" aria-hidden="true" focusable="false"><use href="#icon-success"></use></svg>{% endif %}
+                    {% if image.post_images.exists or image.post_images_new.exists %}<svg style="width: 25px; height: 25px; fill: #217400" class="icon icon-success" aria-hidden="true" focusable="false"><use href="#icon-success"></use></svg>{% endif %}
                 </p>
             </li>
         {% endfor %}
