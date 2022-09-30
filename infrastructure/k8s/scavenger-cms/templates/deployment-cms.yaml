@@ -49,8 +49,8 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Release.Name }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
-#            - newrelic-admin
-#            - run-program
+            - newrelic-admin
+            - run-program
             - gunicorn
             - -w
             - "3"
