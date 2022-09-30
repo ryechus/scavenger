@@ -1,7 +1,7 @@
 {% load static wagtailcore_tags wagtailimages_tags tz humanize %}
 <div class="row no-gutters">
     <div class="post col-xs-12 col-md-6 offset-md-3">
-        {% for p_img in post.post_images.all %}
+        {% for p_img in post.images_new %}
             {% image p_img.image_new fill-640x640 as p_img_tmb %}
             <a href="{% pageurl post %}">
                 <img class="postImage" loading="lazy" src="{{ p_img_tmb.url }}" alt="">

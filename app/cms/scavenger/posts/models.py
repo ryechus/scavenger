@@ -107,6 +107,10 @@ class Post(Page):
     def image_urls(self):
         return self.post_images.all()
 
+    @property
+    def images_new(self):
+        return self.post_images.filter(image_new__isnull=False)
+
 
 class RichPost(Post):
     body = RichTextField(blank=True)  # this field is being removed
