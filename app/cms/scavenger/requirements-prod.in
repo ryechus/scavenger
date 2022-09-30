@@ -5,3 +5,4 @@ redis
 hiredis
 django-allow-cidr
 elastic-apm
+newrelic
