@@ -49,7 +49,6 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Release.Name }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
-            - NEW_RELIC_CONFIG_FILE=/root/newrelic.ini
             - newrelic-admin
             - run-program
             - gunicorn
@@ -73,6 +72,8 @@ spec:
               value: {{ .Values.environment.name }}
             - name: SOURCE_CODE_VERSION
               value: {{ .Values.image.tag | default .Release.Name }}
+            - name: NEW_RELIC_CONFIG_FILE
+              value: /root/newrelic.ini
           livenessProbe:
             httpGet:
               path: /health
