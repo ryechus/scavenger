@@ -131,12 +131,6 @@ cms:
       secretKeyRef:
         name: scavenger-graph-api
         key: GRAPH_API_APP_SECRET
-  # New Relic
-  - name: NEW_RELIC_LICENSE_KEY
-    valueFrom:
-      secretKeyRef:
-        name: newrelic-license-key
-        key: key
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
