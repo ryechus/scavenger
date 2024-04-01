@@ -8,13 +8,13 @@ metadata:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
-    cert-manager.io/cluster-issuer: letsencrypt-staging
 spec:
   tls:
     - hosts:
         - scavenger.news
         - images.scavenger.news
-      secretName: scavenger-tls-apr-2022
+        - fortune.mikeshouse.tv
+      secretName: scavenger-tls-apr-2022-qm9rh
   rules:
     - host: scavenger.news
       http:
@@ -36,3 +36,13 @@ spec:
                 name: scavenger-images
                 port:
                   number: 8000
+    - host: fortune.mikeshouse.tv
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: fortune-cookie
+                port:
+                  number: 8080
