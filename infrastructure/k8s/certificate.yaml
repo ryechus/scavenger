@@ -1,0 +1,16 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: scavenger-tls-apr-2022
+  # cert-manager will put the resulting Secret in the same Kubernetes
+  # namespace as the Certificate. You should create the certificate in
+  # whichever namespace you want to configure a Host.
+spec:
+  secretName: scavenger-issuer-account-key
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer
+  dnsNames:
+  - scavenger.news
+  - images.scavenger.news
+  - fortune.mikeshouse.tv
