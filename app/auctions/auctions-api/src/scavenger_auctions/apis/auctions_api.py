@@ -75,13 +75,13 @@ async def auction_id_delete(
 )
 async def auction_id_get(
     id: str = Path(..., description=""),
-) -> AuctionSQLModel:
+) -> Auction:
     with Session(engine) as session:
         auction = session.get(AuctionSQLModel, uuid.UUID(id).hex)
         if not auction:
             raise HTTPException(status_code=404, detail="Auction not found")
 
-        return auction
+        return Auction(**auction.dict())
 
 
 @router.patch(

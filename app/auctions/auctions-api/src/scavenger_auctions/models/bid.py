@@ -13,40 +13,52 @@
 
 
 from __future__ import annotations
+
+import json
 import pprint
 import re  # noqa: F401
-import json
-
-
-
-
+import uuid
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional, Union
+
+from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr
 from typing_extensions import Annotated
+
 try:
     from typing import Self
 except ImportError:
     from typing_extensions import Self
 
+
 class Bid(BaseModel):
     """
     Bid
-    """ # noqa: E501
-    id: Optional[StrictStr] = None
-    auction_id: Optional[StrictStr] = None
-    bid_amount: Optional[Union[Annotated[float, Field(strict=True, ge=0.01)], Annotated[int, Field(strict=True, ge=1)]]] = None
-    max_bid_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="0 or must be greater than bid_amount")
+    """  # noqa: E501
+
+    id: Optional[StrictStr | uuid.UUID] = None
+    auction_id: Optional[StrictStr | uuid.UUID] = None
+    bid_amount: Optional[
+        Union[Annotated[float, Field(strict=True, ge=0.01)], Annotated[int, Field(strict=True, ge=1)]]
+    ] = None
+    max_bid_amount: Optional[Union[StrictFloat, StrictInt]] = Field(
+        default=None, description="0 or must be greater than bid_amount"
+    )
     client_timestamp: Optional[datetime] = None
-    customer_id: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["id", "auction_id", "bid_amount", "max_bid_amount", "client_timestamp", "customer_id"]
+    customer_id: Optional[StrictStr | uuid.UUID] = None
+    __properties: ClassVar[List[str]] = [
+        "id",
+        "auction_id",
+        "bid_amount",
+        "max_bid_amount",
+        "client_timestamp",
+        "customer_id",
+    ]
 
     model_config = {
         "populate_by_name": True,
         "validate_assignment": True,
         "protected_namespaces": (),
     }
-
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
@@ -74,8 +86,7 @@ class Bid(BaseModel):
         """
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude={},
             exclude_none=True,
         )
         return _dict
@@ -89,14 +100,14 @@ class Bid(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate({
-            "id": obj.get("id"),
-            "auction_id": obj.get("auction_id"),
-            "bid_amount": obj.get("bid_amount"),
-            "max_bid_amount": obj.get("max_bid_amount"),
-            "client_timestamp": obj.get("client_timestamp"),
-            "customer_id": obj.get("customer_id")
-        })
+        _obj = cls.model_validate(
+            {
+                "id": obj.get("id"),
+                "auction_id": obj.get("auction_id"),
+                "bid_amount": obj.get("bid_amount"),
+                "max_bid_amount": obj.get("max_bid_amount"),
+                "client_timestamp": obj.get("client_timestamp"),
+                "customer_id": obj.get("customer_id"),
+            }
+        )
         return _obj
-
-

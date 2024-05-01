@@ -2,6 +2,8 @@
 
 import importlib
 import pkgutil
+import uuid
+from http.client import HTTPException
 from typing import Dict, List  # noqa: F401
 
 from fastapi import (  # noqa: F401
@@ -17,12 +19,15 @@ from fastapi import (  # noqa: F401
     Security,
     status,
 )
+from sqlmodel import Session
 
 import openapi_server.impl
 from scavenger_auctions.apis.bids_api_base import BaseBidsApi
 from scavenger_auctions.models.bid import Bid
 from scavenger_auctions.models.error_response import ErrorResponse
 from scavenger_auctions.models.extra_models import TokenModel  # noqa: F401
+from scavenger_auctions.sql_models.core import Bid as BidSQLModel
+from scavenger_auctions.sql_models.core import engine
 
 router = APIRouter()
 
@@ -45,7 +50,12 @@ for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
 async def bid_id_get(
     id: str = Path(..., description=""),
 ) -> Bid:
-    ...
+    with Session(engine) as session:
+        bid = session.get(BidSQLModel, uuid.UUID(id).hex)
+        if not bid:
+            raise HTTPException(status_code=404, detail="Auction not found")
+
+        return Bid(**bid.dict())
 
 
 @router.post(
@@ -61,4 +71,10 @@ async def bid_id_get(
 async def bid_post(
     bid: Bid = Body(None, description=""),
 ) -> Bid:
-    ...
+    bid_deserialized = BidSQLModel(**bid.to_dict())
+    with Session(engine) as session:
+        session.add(bid_deserialized)
+        session.commit()
+        session.refresh(bid_deserialized)
+
+        return Bid(**bid_deserialized.dict())
