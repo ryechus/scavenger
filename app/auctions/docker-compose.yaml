@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  docs-preview:
+    image: redocly/cli
+    command:
+      - preview-docs
+      - auctions-api.yaml
+      - -h
+      - "0.0.0.0"
+      - --port
+      - "8989"
+    volumes:
+      - ./:/spec
+    ports:
+      - 8989:8989

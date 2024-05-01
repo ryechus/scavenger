@@ -1,0 +1,320 @@
+openapi: 3.0.2
+info:
+  title: Auction API
+  version: 0.0.1
+servers:
+- description: local server
+  url: http://localhost:8765
+- description: production server
+  url: https://auctions.scavenger.news
+paths:
+  /auction:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Auction'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Auction'
+          description: CREATED
+        "4XX":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: CLIENT ERROR
+        "5XX":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: SERVER ERROR
+      tags:
+      - auctions
+  /auction/{id}:
+    delete:
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "201":
+          description: DELETED
+        "4XX":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: CLIENT ERROR
+        "5XX":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: SERVER ERROR
+      tags:
+      - auctions
+    get:
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Auction'
+          description: OK
+        "4XX":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: CLIENT ERROR
+        "5XX":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: SERVER ERROR
+      tags:
+      - auctions
+    patch:
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Auction'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Auction'
+          description: CHANGED
+        "4XX":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: CLIENT ERROR
+        "5XX":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: SERVER ERROR
+      tags:
+      - auctions
+  /bid/{id}:
+    get:
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "102":
+          description: BID PROCESSING
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bid'
+          description: OK
+        "4XX":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: CLIENT ERROR
+        "5XX":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: SERVER ERROR
+      tags:
+      - bids
+  /bid:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Bid'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bid'
+          description: CREATED
+        "4XX":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: CLIENT ERROR
+        "5XX":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: SERVER ERROR
+      tags:
+      - bids
+components:
+  schemas:
+    Auction:
+      example:
+        starting_datetime: 2000-01-23T04:56:07.000+00:00
+        starting_price: 0.8008281904610115
+        name: name
+        ending_datetime: 2000-01-23T04:56:07.000+00:00
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        current_bid:
+          bid_amount: 6.027456183070403
+          customer:
+            id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+            pseudonym: pseudonym
+      properties:
+        id:
+          description: this field is read only
+          format: uuid
+          title: id
+          type: string
+        name:
+          title: name
+          type: string
+        starting_datetime:
+          format: date-time
+          title: starting_datetime
+          type: string
+        ending_datetime:
+          format: date-time
+          title: ending_datetime
+          type: string
+        starting_price:
+          description: starting price of auction in USD cents
+          format: integer
+          title: starting_price
+          type: number
+        current_bid:
+          $ref: '#/components/schemas/Auction_current_bid'
+      title: Auction
+      type: object
+    Bid:
+      example:
+        client_timestamp: 2000-01-23T04:56:07.000+00:00
+        max_bid_amount: 6.027456183070403
+        bid_amount: 0.09008281904610115
+        auction_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        customer_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      properties:
+        id:
+          format: uuid
+          title: id
+          type: string
+        auction_id:
+          format: uuid
+          title: auction_id
+          type: string
+        bid_amount:
+          format: integer
+          minimum: 0.01
+          title: bid_amount
+          type: number
+        max_bid_amount:
+          description: 0 or must be greater than bid_amount
+          format: integer
+          title: max_bid_amount
+          type: number
+        client_timestamp:
+          format: date-time
+          title: client_timestamp
+          type: string
+        customer_id:
+          format: uuid
+          title: customer_id
+          type: string
+      title: Bid
+      type: object
+    ErrorResponse:
+      example:
+        data:
+          message: message
+        error_code: 1.4658129805029452
+      properties:
+        data:
+          $ref: '#/components/schemas/ErrorResponse_data'
+        error_code:
+          format: integer
+          title: error_code
+          type: number
+      title: ErrorResponse
+      type: object
+    Auction_current_bid_customer:
+      example:
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        pseudonym: pseudonym
+      properties:
+        id:
+          format: uuid
+          title: id
+          type: string
+        pseudonym:
+          title: pseudonym
+          type: string
+      title: Auction_current_bid_customer
+      type: object
+    Auction_current_bid:
+      example:
+        bid_amount: 6.027456183070403
+        customer:
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          pseudonym: pseudonym
+      properties:
+        bid_amount:
+          format: integer
+          title: bid_amount
+          type: number
+        customer:
+          $ref: '#/components/schemas/Auction_current_bid_customer'
+      title: Auction_current_bid
+      type: object
+    ErrorResponse_data:
+      example:
+        message: message
+      properties:
+        message:
+          title: message
+          type: string
+      title: ErrorResponse_data
+      type: object

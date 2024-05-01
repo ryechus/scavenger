@@ -1,0 +1,59 @@
+#[build-system]
+#requires = ["setuptools", "wheel"]
+#build-backend = "setuptools.build_meta"
+#
+[tool.black]
+line-length = 109
+exclude = '''
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+  )/
+)
+'''
+
+[tool.isort]
+profile = "black"
+skip = [
+    '.eggs', '.git', '.hg', '.mypy_cache', '.nox', '.pants.d', '.tox',
+    '.venv', '_build', 'buck-out', 'build', 'dist', 'node_modules', 'venv',
+]
+skip_gitignore = true
+known_first_party = ["scavenger_auctions", "openapi_server"]
+
+[tool.poetry]
+name = "scavenger-auctions"
+version = "0.1.0"
+description = ""
+authors = ["Michael Hardin <mhardinla@gmail.com>"]
+readme = "README.md"
+packages = [
+    { include = "scavenger_auctions", from = "src"}
+]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.110.3"
+sqlmodel = "^0.0.18"
+uvicorn = "^0.29.0"
+
+[tool.poetry.group.dev.dependencies]
+alembic = "^1.13.1"
+pytest = "^8.2.0"
+ipdb = "^0.13.13"
+ipython = "^8.24.0"
+isort = "^5.13.2"
+flake8 = "^7.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
