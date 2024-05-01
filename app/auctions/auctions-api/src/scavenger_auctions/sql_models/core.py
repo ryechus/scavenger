@@ -23,6 +23,7 @@ class Auction(SQLModel, table=True):
     ending_datetime: datetime.datetime = Field(default_factory=datetime.datetime.now, nullable=False)
     starting_price: int
     current_bid: int | None = None
+    is_deleted: bool = Field(default=False)
 
 
 sqlite_file_name = "database.db"

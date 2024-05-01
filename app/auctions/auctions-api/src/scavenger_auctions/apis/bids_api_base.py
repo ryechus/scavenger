@@ -16,11 +16,9 @@ class BaseBidsApi:
     def bid_id_get(
         self,
         id: str,
-    ) -> Bid:
-        ...
+    ) -> Bid: ...
 
     def bid_post(
         self,
         bid: Bid,
-    ) -> Bid:
-        ...
+    ) -> Bid: ...

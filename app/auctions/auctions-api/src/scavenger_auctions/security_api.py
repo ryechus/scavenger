@@ -14,10 +14,7 @@ from fastapi.security import (  # noqa: F401
     OAuth2PasswordBearer,
     SecurityScopes,
 )
-from fastapi.security.api_key import (  # noqa: F401
-    APIKeyCookie,
-    APIKeyHeader,
-    APIKeyQuery,
-)
+from fastapi.security.api_key import APIKeyCookie, APIKeyHeader, APIKeyQuery  # noqa: F401
 
 from scavenger_auctions.models.extra_models import TokenModel
+

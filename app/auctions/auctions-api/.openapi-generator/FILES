@@ -19,6 +19,7 @@ src/scavenger_auctions/models/__init__.py
 src/scavenger_auctions/models/auction.py
 src/scavenger_auctions/models/auction_current_bid.py
 src/scavenger_auctions/models/auction_current_bid_customer.py
+src/scavenger_auctions/models/auction_list.py
 src/scavenger_auctions/models/bid.py
 src/scavenger_auctions/models/error_response.py
 src/scavenger_auctions/models/error_response_data.py

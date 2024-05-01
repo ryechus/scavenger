@@ -8,7 +8,29 @@ servers:
 - description: production server
   url: https://auctions.scavenger.news
 paths:
-  /auction:
+  /auctions:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuctionList'
+          description: OK
+        "4XX":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: CLIENT ERROR
+        "5XX":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: SERVER ERROR
+      tags:
+      - auctions
     post:
       requestBody:
         content:
@@ -265,6 +287,37 @@ components:
           title: customer_id
           type: string
       title: Bid
+      type: object
+    AuctionList:
+      example:
+        data:
+        - starting_datetime: 2000-01-23T04:56:07.000+00:00
+          starting_price: 0.8008281904610115
+          name: name
+          ending_datetime: 2000-01-23T04:56:07.000+00:00
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          current_bid:
+            bid_amount: 6.027456183070403
+            customer:
+              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+              pseudonym: pseudonym
+        - starting_datetime: 2000-01-23T04:56:07.000+00:00
+          starting_price: 0.8008281904610115
+          name: name
+          ending_datetime: 2000-01-23T04:56:07.000+00:00
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          current_bid:
+            bid_amount: 6.027456183070403
+            customer:
+              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+              pseudonym: pseudonym
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Auction'
+          title: data
+          type: array
+      title: AuctionList
       type: object
     ErrorResponse:
       example:

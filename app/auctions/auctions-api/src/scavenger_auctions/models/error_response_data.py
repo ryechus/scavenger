@@ -13,25 +13,24 @@
 
 
 from __future__ import annotations
-
-import json
 import pprint
 import re  # noqa: F401
-from typing import Any, ClassVar, Dict, List, Optional
+import json
+
+
+
 
 from pydantic import BaseModel, ConfigDict, StrictStr
-
+from typing import Any, ClassVar, Dict, List, Optional
 try:
     from typing import Self
 except ImportError:
     from typing_extensions import Self
 
-
 class ErrorResponseData(BaseModel):
     """
     ErrorResponseData
-    """  # noqa: E501
-
+    """ # noqa: E501
     message: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = ["message"]
 
@@ -40,6 +39,7 @@ class ErrorResponseData(BaseModel):
         "validate_assignment": True,
         "protected_namespaces": (),
     }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
@@ -67,7 +67,8 @@ class ErrorResponseData(BaseModel):
         """
         _dict = self.model_dump(
             by_alias=True,
-            exclude={},
+            exclude={
+            },
             exclude_none=True,
         )
         return _dict
@@ -81,5 +82,9 @@ class ErrorResponseData(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate({"message": obj.get("message")})
+        _obj = cls.model_validate({
+            "message": obj.get("message")
+        })
         return _obj
+
+

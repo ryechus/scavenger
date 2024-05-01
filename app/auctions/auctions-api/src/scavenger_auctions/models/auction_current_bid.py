@@ -13,29 +13,25 @@
 
 
 from __future__ import annotations
-
-import json
 import pprint
 import re  # noqa: F401
-from typing import Any, ClassVar, Dict, List, Optional, Union
+import json
+
+
+
 
 from pydantic import BaseModel, ConfigDict, StrictFloat, StrictInt
-
-from scavenger_auctions.models.auction_current_bid_customer import (
-    AuctionCurrentBidCustomer,
-)
-
+from typing import Any, ClassVar, Dict, List, Optional, Union
+from scavenger_auctions.models.auction_current_bid_customer import AuctionCurrentBidCustomer
 try:
     from typing import Self
 except ImportError:
     from typing_extensions import Self
 
-
 class AuctionCurrentBid(BaseModel):
     """
     AuctionCurrentBid
-    """  # noqa: E501
-
+    """ # noqa: E501
     bid_amount: Optional[Union[StrictFloat, StrictInt]] = None
     customer: Optional[AuctionCurrentBidCustomer] = None
     __properties: ClassVar[List[str]] = ["bid_amount", "customer"]
@@ -45,6 +41,7 @@ class AuctionCurrentBid(BaseModel):
         "validate_assignment": True,
         "protected_namespaces": (),
     }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
@@ -72,12 +69,13 @@ class AuctionCurrentBid(BaseModel):
         """
         _dict = self.model_dump(
             by_alias=True,
-            exclude={},
+            exclude={
+            },
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of customer
         if self.customer:
-            _dict["customer"] = self.customer.to_dict()
+            _dict['customer'] = self.customer.to_dict()
         return _dict
 
     @classmethod
@@ -89,12 +87,10 @@ class AuctionCurrentBid(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                "bid_amount": obj.get("bid_amount"),
-                "customer": AuctionCurrentBidCustomer.from_dict(obj.get("customer"))
-                if obj.get("customer") is not None
-                else None,
-            }
-        )
+        _obj = cls.model_validate({
+            "bid_amount": obj.get("bid_amount"),
+            "customer": AuctionCurrentBidCustomer.from_dict(obj.get("customer")) if obj.get("customer") is not None else None
+        })
         return _obj
+
+

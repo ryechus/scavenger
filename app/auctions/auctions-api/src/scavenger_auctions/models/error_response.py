@@ -13,27 +13,25 @@
 
 
 from __future__ import annotations
-
-import json
 import pprint
 import re  # noqa: F401
-from typing import Any, ClassVar, Dict, List, Optional, Union
+import json
+
+
+
 
 from pydantic import BaseModel, ConfigDict, StrictFloat, StrictInt
-
+from typing import Any, ClassVar, Dict, List, Optional, Union
 from scavenger_auctions.models.error_response_data import ErrorResponseData
-
 try:
     from typing import Self
 except ImportError:
     from typing_extensions import Self
 
-
 class ErrorResponse(BaseModel):
     """
     ErrorResponse
-    """  # noqa: E501
-
+    """ # noqa: E501
     data: Optional[ErrorResponseData] = None
     error_code: Optional[Union[StrictFloat, StrictInt]] = None
     __properties: ClassVar[List[str]] = ["data", "error_code"]
@@ -43,6 +41,7 @@ class ErrorResponse(BaseModel):
         "validate_assignment": True,
         "protected_namespaces": (),
     }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
@@ -70,12 +69,13 @@ class ErrorResponse(BaseModel):
         """
         _dict = self.model_dump(
             by_alias=True,
-            exclude={},
+            exclude={
+            },
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of data
         if self.data:
-            _dict["data"] = self.data.to_dict()
+            _dict['data'] = self.data.to_dict()
         return _dict
 
     @classmethod
@@ -87,12 +87,10 @@ class ErrorResponse(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                "data": ErrorResponseData.from_dict(obj.get("data"))
-                if obj.get("data") is not None
-                else None,
-                "error_code": obj.get("error_code"),
-            }
-        )
+        _obj = cls.model_validate({
+            "data": ErrorResponseData.from_dict(obj.get("data")) if obj.get("data") is not None else None,
+            "error_code": obj.get("error_code")
+        })
         return _obj
+
+

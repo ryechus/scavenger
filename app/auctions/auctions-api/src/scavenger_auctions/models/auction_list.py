@@ -13,40 +13,35 @@
 
 
 from __future__ import annotations
+
+import json
 import pprint
 import re  # noqa: F401
-import json
+from typing import Any, ClassVar, Dict, List, Optional
 
+from pydantic import BaseModel, ConfigDict
 
+from scavenger_auctions.models.auction import Auction
 
-
-from datetime import datetime
-from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional, Union
-from typing_extensions import Annotated
 try:
     from typing import Self
 except ImportError:
     from typing_extensions import Self
 
-class Bid(BaseModel):
+
+class AuctionList(BaseModel):
     """
-    Bid
-    """ # noqa: E501
-    id: Optional[StrictStr] = None
-    auction_id: Optional[StrictStr] = None
-    bid_amount: Optional[Union[Annotated[float, Field(strict=True, ge=0.01)], Annotated[int, Field(strict=True, ge=1)]]] = None
-    max_bid_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="0 or must be greater than bid_amount")
-    client_timestamp: Optional[datetime] = None
-    customer_id: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["id", "auction_id", "bid_amount", "max_bid_amount", "client_timestamp", "customer_id"]
+    AuctionList
+    """  # noqa: E501
+
+    data: List[Auction]
+    __properties: ClassVar[List[str]] = ["data"]
 
     model_config = {
         "populate_by_name": True,
         "validate_assignment": True,
         "protected_namespaces": (),
     }
-
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
@@ -59,7 +54,7 @@ class Bid(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:
-        """Create an instance of Bid from a JSON string"""
+        """Create an instance of AuctionList from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -74,29 +69,32 @@ class Bid(BaseModel):
         """
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude={},
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in data (list)
+        _items = []
+        if self.data:
+            for _item in self.data:
+                if _item:
+                    _items.append(_item.to_dict())
+            _dict["data"] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Dict) -> Self:
-        """Create an instance of Bid from a dict"""
+        """Create an instance of AuctionList from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate({
-            "id": obj.get("id"),
-            "auction_id": obj.get("auction_id"),
-            "bid_amount": obj.get("bid_amount"),
-            "max_bid_amount": obj.get("max_bid_amount"),
-            "client_timestamp": obj.get("client_timestamp"),
-            "customer_id": obj.get("customer_id")
-        })
+        _obj = cls.model_validate(
+            {
+                "data": [Auction.from_dict(_item) for _item in obj.get("data")]
+                if obj.get("data") is not None
+                else None
+            }
+        )
         return _obj
-
-

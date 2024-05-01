@@ -8,7 +8,30 @@ servers:
   - url: https://auctions.scavenger.news
     description: production server
 paths:
-  /auction:
+  /auctions:
+    get:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuctionList"
+        4XX:
+          description: CLIENT ERROR
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        5XX:
+          description: SERVER ERROR
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+      tags:
+        - auctions
+
     post:
       requestBody:
         content:
@@ -239,6 +262,13 @@ components:
         customer_id:
           type: string
           format: uuid
+    AuctionList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Auction"
     ErrorResponse:
       type: object
       properties:
