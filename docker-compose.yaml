@@ -7,7 +7,7 @@ services:
       dockerfile: Minimal.Dockerfile
       args:
         requirements: requirements.in requirements-dev.in requirements-prod.in
-        docker_image_tag: base-81b6dcf
+        docker_image_tag: base-8527252
     command:
       - gunicorn
       - -w
@@ -23,11 +23,11 @@ services:
       - ./app/cms/scavenger:/app/scavenger
     ports:
       - 8000:8000
-  fluentd:
-    image: fluent/fluent-bit:1.9.1
+#  fluentd:
+#    image: fluent/fluent-bit:1.9.1
 #    depends_on:
 #      - postgres
-#  postgres:
-#    image: postgres
-#    env_file:
-#      - .env.postgres
+  postgres:
+    image: postgres
+    env_file:
+      - app/cms/scavenger/.env.postgres

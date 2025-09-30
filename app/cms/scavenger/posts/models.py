@@ -57,12 +57,12 @@ class PostImages(Orderable):
 
 class PostImageSerializer(serializers.ModelSerializer):
     # title = serializers.CharField(required=False)
-    image = ImageRenditionField("fill-640x640")
+    image_new = ImageRenditionField("fill-640x640")
     video = serializers.FileField()
 
     class Meta:
         model = PostImages
-        fields = ["image", "video"]
+        fields = ["image_new", "video"]
 
 
 class Post(Page):

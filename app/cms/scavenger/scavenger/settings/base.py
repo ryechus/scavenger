@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.humanize",
+    # "corsheaders",
     "artists",
     "home",
     "search",
@@ -59,6 +60,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
+    # "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -201,3 +203,5 @@ IMAGE_SERVICE_HOST = "http://localhost:8181"
 IMAGE_SERVICE_CDN = "https://images.cdn.scavenger.news"
 
 ENVIRONMENT_NAME = "local"
+
+CORS_ALLOW_ALL_ORIGINS = True

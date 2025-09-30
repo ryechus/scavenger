@@ -8,3 +8,4 @@ jsonformatter
 pendulum
 instagram-sync[django]==0.1.8
 wagtailvideos
+django-cors-headers

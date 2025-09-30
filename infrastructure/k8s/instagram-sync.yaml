@@ -6,11 +6,12 @@ spec:
   schedule: "* * * * *"
   jobTemplate:
     spec:
+      ttlSecondsAfterFinished: 120
       template:
         spec:
           containers:
           - name: instagram-sync
-            image: ryechus/scavenger-wagtail:80edd0093385f0039642b2b7869984a6cc3c5676
+            image: ryechus/scavenger-wagtail:824fd9f7d8875402ace7f88cc800e19ad03b98ce
             command:
               - ./manage.py
               - sync_instagram
@@ -19,7 +20,7 @@ spec:
               - --site
               - "2"
               - --lookback
-              - "60"
+              - "25000000"
             env:
             - name: DJANGO_SECRET_KEY
               valueFrom:

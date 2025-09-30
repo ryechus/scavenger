@@ -14,7 +14,7 @@ spec:
         - scavenger.news
         - images.scavenger.news
         - fortune.mikeshouse.tv
-      secretName: scavenger-tls-apr-2022-qm9rh
+      secretName: scavenger-issuer-account-key
   rules:
     - host: scavenger.news
       http:

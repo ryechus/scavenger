@@ -33,7 +33,10 @@ class Command(BaseCommand):
         split_url = parsed_url.path.split("/")
         title = split_url[-1].rsplit(".")[0]
         content_file = ContentFile(ig_media_obj.bytes, name=split_url[-1])
-        is_video = splitext(parsed_url.path)[1][1:] in ("mp4", "mov", "MP4", "MOV")
+        is_video = (
+            splitext(parsed_url.path)[1][1:] in ("mp4", "mov", "MP4", "MOV")
+            or ig_media_obj.is_video
+        )
 
         ig_content_file = namedtuple(
             "IGContentFile", ["title", "content_file", "is_video"]
