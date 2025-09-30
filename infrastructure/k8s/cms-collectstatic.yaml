@@ -45,9 +45,15 @@ spec:
                   name: cms-db-connection
                   key: DB_PORT
             - name: AWS_S3_ACCESS_KEY_ID
-              value: AKIASX6I5DXVPH54ZCEN
+              valueFrom:
+                secretKeyRef:
+                  name: scavenger-aws-s3-cred
+                  key: AWS_S3_ACCESS_KEY_ID
             - name: AWS_S3_SECRET_ACCESS_KEY
-              value: ZY7HxVnkodqTVysYYWaH7zwsdx2U0rYAukM8+mBm
+              valueFrom:
+                secretKeyRef:
+                  name: scavenger-aws-s3-cred
+                  key: AWS_S3_SECRET_ACCESS_KEY
             - name: env
               value: dev
       restartPolicy: Never
