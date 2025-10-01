@@ -14,7 +14,8 @@ spec:
         - scavenger.news
         - images.scavenger.news
         - fortune.mikeshouse.tv
-      secretName: scavenger-tls-apr-2022-qm9rh
+        - fortune.mjhardin.dev
+      secretName: scavenger-issuer-account-key
   rules:
     - host: scavenger.news
       http:
@@ -37,6 +38,16 @@ spec:
                 port:
                   number: 8000
     - host: fortune.mikeshouse.tv
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: fortune-cookie
+                port:
+                  number: 8080
+    - host: fortune.mjhardin.dev
       http:
         paths:
           - pathType: Prefix
